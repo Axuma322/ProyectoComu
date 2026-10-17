@@ -14,7 +14,6 @@ Estado: investigación y diseño preliminar, 16 de octubre de 2026. No hay trans
 6. [Evaluación](transmision/pruebas/README.md): fases, métricas y consultas docentes.
 7. [Bitácora y planificación](documentacion/bitacora.md).
 
-`transmision/transmisor/`, `transmision/receptor/`, `codificacion/` e `integracion/` reservan las próximas etapas. `recursos/` conserva las fotografías originales y el PDF recibido; la copia documental del PDF se verifica por SHA-256. No se requieren bibliotecas de radio para leer esta investigación.
 
 ## Cálculos reproducibles
 
