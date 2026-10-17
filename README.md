@@ -14,13 +14,3 @@ Estado: investigación y diseño preliminar, 16 de octubre de 2026. No hay trans
 6. [Evaluación](transmision/pruebas/README.md): fases, métricas y consultas docentes.
 7. [Bitácora y planificación](documentacion/bitacora.md).
 
-
-## Cálculos reproducibles
-
-Con Python 3, sin dependencias externas:
-
-```sh
-python documentacion/investigacion/calculos_preliminares.py
-```
-
-El script reproduce los escenarios de enlace y capacidad; no controla hardware ni certifica alcance o legalidad. Los documentos contienen enlaces relativos y Mermaid para lectura en GitHub. No se realizaron commits ni push.
