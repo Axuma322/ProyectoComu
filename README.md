@@ -2,7 +2,7 @@
 
 Proyecto integrador IE0527 Ingeniería de Comunicaciones, Universidad de Costa Rica: **transmisión inalámbrica de imágenes con codificación de fuente**.
 
-Estado: investigación y diseño preliminar, 16 de octubre de 2026. No hay transmisor, receptor ni codificadores implementados; tampoco resultados experimentales. Recomendación provisional: una Raspberry Pi Zero por extremo, radio nRF24 compatible y protocolo propio punto a punto. El equipo confirma la existencia física de los componentes fotografiados en el laboratorio. Modelos, cantidades, funcionamiento, alimentación, visualización y conformidad regulatoria siguen pendientes de verificación.
+Estado: investigación y diseño preliminar, 16 de octubre de 2026. No hay transmisor, receptor ni codificadores implementados; tampoco resultados experimentales. Diseño provisional: una Raspberry Pi Zero por extremo, radio nRF24 compatible y protocolo propio punto a punto. 
 
 ## Navegación
 
