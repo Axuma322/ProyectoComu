@@ -18,7 +18,7 @@ La [comparación completa](investigacion/alternativas.md) evalúa Pi Zero+nRF24L
 
 ## 4. Comparación y selección preliminar
 
-Se recomienda Pi Zero y radio nRF24, condicionado a identificar modelo y variante. La decisión prioriza materiales declarados, SPI y facilidad de prueba; no una promesa de alcance comercial. Se propone estudiar 1 Mbit/s como punto inicial y contrastar tasas según sensibilidad y tiempo efectivo. Si el chip es nRF24L01 sin «+», revisar configuración y descartar 250 kbit/s. PA/LNA no se presupone por la presencia de conector SMA. [Investigación de radio](investigacion/nrf24.md)
+Se usará Pi Zero y radio nRF24, condicionado a identificar modelo y variante. La decisión prioriza materiales declarados, SPI y facilidad de prueba; no una promesa de alcance comercial. Se propone estudiar 1 Mbit/s como punto inicial y contrastar tasas según sensibilidad y tiempo efectivo. Si el chip es nRF24L01 sin «+», revisar configuración y descartar 250 kbit/s. PA/LNA no se presupone por la presencia de conector SMA. [Investigación de radio](investigacion/nrf24.md)
 
 ## 5. Arquitectura general
 
