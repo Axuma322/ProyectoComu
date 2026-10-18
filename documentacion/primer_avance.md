@@ -10,7 +10,7 @@ El proyecto transportará imágenes digitales entre dos dispositivos portátiles
 
 El sistema debe usar una sola plataforma programable por extremo, energía autónoma, botón y actividad luminosa; leer BMP/PGM gris sin comprimir hasta 320×240, transmitir por enlace de bajo nivel, reconstruir, guardar y desplegar. El receptor debe esperar sin conocer inicio. Quedan excluidos WiFi, Bluetooth/BLE, Zigbee, LoRaWAN y redes celulares. Selección de modo con/sin pérdidas antes de iniciar e indicación visible son obligatorias. [C](investigacion/fuentes.md)
 
-La prueba mínima es 30 m con línea de vista y al menos dos de tres imágenes correctas; sin pérdidas exige identidad exacta, con pérdidas imagen reconocible y PSNR >25 dB. Se adopta provisionalmente ≤60 s desde botón hasta despliegue para resolver conservadoramente la diferencia de redacción de los intervalos. Las tres imágenes serán fotográfica, uniforme y de detalle fino; las oficiales no están disponibles todavía. [C](investigacion/fuentes.md)
+La prueba mínima es 30 m con línea de vista y al menos dos de tres imágenes correctas; sin pérdidas exige identidad exacta, con pérdidas imagen reconocible y PSNR >25 dB. Se adopta provisionalmente ≤60 s desde botón hasta despliegue para resolver conservadoramente la diferencia de redacción de los intervalos. 
 
 ## 3. Investigación de alternativas
 
