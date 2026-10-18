@@ -1,10 +1,10 @@
-# Fuentes verificables
+# Fuentes de la investigación
 
-Consulta: 2026-10-16. Las referencias locales y oficiales sustentan los documentos; no se usaron publicaciones comerciales para prometer alcance.
+Fuentes consultadas el 16 de octubre de 2026. Esta revisión de redacción no repite la búsqueda técnica ni certifica vigencia normativa al día de hoy.
 
 | ID | Documento y acceso | Uso / límite de verificación |
 |---|---|---|
-| C | [Consigna local](../consigna/escenario_original.pdf), pp. 1–8 | Requisitos, evaluación y recursos; lectura completa |
+| C | Consigna UCR, *Transmisión inalámbrica de imágenes con codificación de fuente*, pp. 1–8 | Revisada en la etapa inicial; el PDF fue retirado del repositorio y no está disponible en esta versión |
 | N | Nordic Semiconductor, *nRF24L01+ Product Specification*, v1.0, septiembre 2008. [Portal oficial](https://docs.nordicsemi.com/bundle/nRF24L01P_PS_v1.0/resource/nRF24L01P_PS_v1.0.pdf); [copia del documento del fabricante alojada por SparkFun](https://www.sparkfun.com/datasheets/Wireless/Nordic/nRF24L01P_Product_Specification_1_0.pdf) | Portal redirige y descarga bloqueada; copia de 78 páginas leída para parámetros, §§5–8 y registros. No confundir con nRF24L01 sin «+» |
 | R | [RF24 documentación oficial](https://nrf24.github.io/RF24/) | Controlador de bajo nivel; versión observada 1.6.2, no instalada |
 | RL | [RF24 Linux/Raspberry Pi](https://nrf24.github.io/RF24/md_docs_2rpi__general.html) | SPI, GPIO, backend Linux |
@@ -19,4 +19,4 @@ Consulta: 2026-10-16. Las referencias locales y oficiales sustentan los document
 | L26 | [La Gaceta, Alcance 45, 29 abril 2026, decreto 45769-MICITT](https://www.imprentanacional.go.cr/pub/2026/04/29/ALCA45_29_04_2026.pdf), pp. 21–75, especialmente 73–75 | Reforma del PNAF; revisar Apéndice V, tabla 22. No se afirma haber descartado toda reforma posterior |
 | S | [SUTEL RCS-245-2023, homologación en bandas libres](https://sutel.go.cr/pagina/procedimiento-de-solicitud-de-homologacion-de-dispositivos-que-operan-en-las-bandas-de-uso), [consulta de equipos](https://homologacion.sutel.go.cr/) | Procedimiento localizado; no se ha verificado certificado del módulo ni aplicabilidad concreta al prototipo universitario |
 
-El listado de ejemplos Linux se comprobó mediante API oficial de GitHub y sus fuentes se consultaron en el servidor raw; la página web del directorio no fue recuperable por el navegador de investigación. No se compiló ningún ejemplo ni se consultó un modelo específico en el registro de homologación. La descarga Nordic presentó el bloqueo indicado; su copia documental se obtuvo por SparkFun. La recomendación UIT también se verificó en su PDF en español, §2.3, ecuaciones 5–6. Conservar fecha, versión y URL al ampliar referencias. No se distribuyen fichas de terceros dentro del repositorio.
+Los ejemplos RF24 se consultaron, pero no se ejecutaron. Para Nordic usamos la copia del documento del fabricante alojada por SparkFun porque la descarga oficial estaba bloqueada. No hemos comprobado homologación de un módulo concreto ni descartado reformas posteriores a las referencias regulatorias citadas.

@@ -1,21 +1,22 @@
-# Alternativas de comunicación
+# Alternativas de transmisión
 
-Propuesta propia basada en [C, N, R, T, V y L26](fuentes.md). Ningún alcance ha sido medido. La plataforma común sería una Pi por extremo: la radio o el circuito óptico no agrega un segundo módulo con procesador programable.
+Investigamos tres opciones de bajo nivel. Usaremos Pi Zero con nRF24 para aprovechar el hardware del laboratorio; las otras quedan como respaldo si encontramos una limitación que no podamos resolver.
 
-| Aspecto | A: Pi Zero + nRF24L01+ | B: Pi Zero + CC1101 | C: Pi + óptica/IR de bajo nivel |
+| Aspecto | Pi Zero + nRF24L01+ | Pi Zero + CC1101 | Pi + óptica/IR |
 |---|---|---|---|
-| Banda / modulación | Chip 2400–2525 MHz, GFSK; seleccionar subbanda autorizada | Chip 300–348, 387–464, 779–928 MHz; 2/4-FSK, GFSK, MSK, ASK/OOK | LED IR, fotodiodo, amplificador y comparador; OOK propuesta |
-| Velocidad nominal | 250 kbit/s, 1 o 2 Mbit/s; original sin «+» no ofrece 250 kbit/s | 0,6–600 kbit/s; sensibilidad depende fuertemente de configuración | Sin valor cerrado: depende del emisor, detector, electrónica y temporización; portadora IR no equivale a tasa útil |
-| Alcance | 30 m es objetivo por validar, sensible a interferencia, antenas y orientación | Menor pérdida de espacio libre a igual distancia/frecuencia menor es favorable; no garantiza alcance | 30 m exige diseño óptico y alineación; luz solar, oclusión y movimiento afectan |
-| Desarrollo | Medio: SPI y RF24; fragmentación, integridad y control propios | Medio/alto: perfiles RF, filtro, antena para banda específica y protocolo propio | Alto: enlace bidireccional para confirmaciones, acondicionamiento y emisión temporizada |
-| Energía | Chip TX 11,3 mA a 0 dBm; PA/LNA y Pi elevan consumo | Ficha: RX 14,7 mA a 1,2 kBaud/868 MHz; TX depende de potencia | Corriente pulsada del LED y receptor por dimensionar; medir sistema completo |
-| Disponibilidad | Equipo confirma existencia física de componentes fotografiados; identificar variantes y contar/probar conjuntos | No confirmado en inventario | No se confirman pares ópticos adecuados |
-| Compatibilidad | SPI + Enhanced ShockBurst no implementa WiFi/TCP; RF24 solo como driver | Radio de bajo nivel compatible conceptualmente, no Zigbee | Compatible conceptualmente; sin protocolos completos de red |
-| Riesgos | Variante, alimentación, FIFO, Linux y medición BER | Regulación local separada, selección de banda/antena, tiempo útil a tasas bajas | Temporización Linux, saturación, velocidad, seguridad óptica y mecánica |
-| Fuentes | N, R, RL, RI, P | T, L26 | V; diseño del circuito pendiente |
+| Banda y modulación | Chip: 2400–2525 MHz, GFSK; elegir frecuencia permitida | Chip: 300–348, 387–464 y 779–928 MHz; FSK/GFSK, MSK y ASK/OOK | LED y detector; OOK como propuesta |
+| Velocidad nominal | 250 kbit/s, 1 o 2 Mbit/s; 250 solo en «+» | 0,6–600 kbit/s | Depende del emisor, receptor y electrónica; sin valor definido |
+| Alcance y limitaciones | 30 m por comprobar; afectan interferencia, antena y alimentación | Menor pérdida en espacio libre a frecuencia menor, con iguales ganancias; no garantiza alcance | Exige alineación; afectan luz ambiente, obstáculos y movimiento |
+| Desarrollo | SPI y RF24; protocolo de archivos propio | SPI, configuración RF y protocolo propio | Circuito óptico, temporización y canal de retorno para ACK |
+| Energía de referencia | Chip: TX 11,3 mA a 0 dBm; el PA/LNA y la Pi se presupuestan aparte | RX 14,7 mA a 1,2 kBaud/868 MHz, según TI; TX depende de potencia | Consumo del emisor y detector por dimensionar |
+| Disponibilidad | Familias presentes; contar e identificar módulos | No confirmado | No se confirmó un par óptico adecuado |
+| Principal riesgo | Variante, estabilidad eléctrica y tasa útil en Linux | Banda local, antena y perfil RF | Alcance/velocidad sin diseño validado |
+| Fuentes | N, R, P | T, L26 | V |
 
-CC1101 incluye FIFOs TX/RX de 64 bytes, CRC y CCA configurables; no suministra por sí solo la transferencia fiable de archivos. El valor −116 dBm de TI corresponde a 0,6 kBaud/433 MHz/1 % PER: no debe emplearse en el presupuesto de un enlace de alta tasa. Su alimentación es 1,8–3,6 V según ficha; comprobar placa comercial. Las bandas 433 y 902–915 MHz se analizan separadamente en [normativa](normativa_enlace.md); no se propone 868 MHz por costumbre europea.
+Las tres opciones encajan conceptualmente con una comunicación de bajo nivel y una Pi por extremo; deben comprobarse configuración y hardware. [Fuentes de la tabla](fuentes.md)
 
-En óptica, las notas Vishay identifican dependencia con intensidad radiante, sensibilidad y luz ambiente. Un receptor de control remoto puede imponer ráfagas y pausas incompatibles con un flujo continuo: seleccionar receptor de datos o diseñar fotodiodo y amplificador. La opción no tiene velocidad ni autonomía presupuestadas; no puede declararse equivalente al radio sin prototipo.
+El CC1101 ofrece CRC, FIFOs de 64 bytes y CCA configurables, pero no resuelve por sí solo el envío fiable de archivos. Su mejor sensibilidad publicada, −116 dBm, corresponde a 0,6 kBaud en 433 MHz y 1 % PER; no sirve como presupuesto de alta tasa. Las bandas propuestas se revisan por separado en [normativa](normativa_enlace.md): no tomamos 868 MHz como autorización local.
 
-Se recomienda A para aprovechar prioritariamente las plataformas Zero y radios existentes en el laboratorio, además de SPI y soporte RF24. Consultar el [inventario visual](../hardware/inventario.md) y las opciones de préstamo antes de proponer compras. Empezar conceptualmente a 1 Mbit/s, evaluar 250 kbit/s solamente si se confirma «+» y comparar 2 Mbit/s cuando el margen lo permita. No comprar PA/LNA para compensar un problema de alimentación o configuración. B queda como respaldo si el enlace de A falla tras diagnóstico; C exige más diseño electrónico y mecánico para esta primera demostración.
+En IR, un receptor de control remoto puede imponer pausas incompatibles con datos continuos. Haría falta un receptor de datos adecuado o diseñar la electrónica, además de comprobar alineación y luz ambiente. La frecuencia de portadora no equivale a tasa de datos.
+
+La opción nRF24 requiere menos hardware adicional y tiene ejemplos RF24 para Linux. Empezaremos estudiando 1 Mbit/s y compararemos otras tasas después de identificar el chip y medir el enlace. Antes de comprar radios o amplificadores, revisaremos el [inventario](../hardware/inventario.md) y diagnosticaremos alimentación y configuración.
