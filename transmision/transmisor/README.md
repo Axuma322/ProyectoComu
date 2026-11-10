@@ -1,3 +1,8 @@
 # Transmisor
 
-Aquí irá el programa que lea el archivo, prepare los fragmentos y controle su envío. Todavía no hay código de radio. La comunicación y sus primeras pruebas se describen en el [protocolo](../protocolo/README.md).
+`enviar.py` envía un mensaje corto y muestra si llega el ACK del radio remoto.
+Desde la raíz del repositorio: `.venv/bin/python -m transmision.transmisor.enviar --message 'Hola K3'`.
+
+Instalación, alimentación y configuración: [prueba mínima](../README.md).
+Todavía no se ha probado en hardware. El envío de archivos y el
+[protocolo propuesto](../protocolo/README.md) quedan para después.

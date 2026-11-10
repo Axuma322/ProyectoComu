@@ -1,0 +1,8 @@
+{
+  "ce_pin": 22,
+  "csn": 0,
+  "spi_speed": 1000000,
+  "channel": 40,
+  "data_rate": "1MBPS",
+  "address": "K3T01"
+}
