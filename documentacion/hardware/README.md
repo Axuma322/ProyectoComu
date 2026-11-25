@@ -30,3 +30,13 @@ Podemos reservar GPIO17 para inicio, GPIO27 para seleccionar modo en TX y GPIO23
 La microSD de la Pi puede almacenar imágenes y registros; no necesitamos añadir un lector externo para empezar. La pantalla será un periférico de la misma Pi, sin incorporar otro módulo programable.
 
 Todavía debemos seleccionar batería y pantalla. Mediremos el consumo completo, incluida la recepción continua y el despliegue. Para estimar autonomía usaremos energía de batería en Wh × eficiencia / potencia media en W, y comprobaremos picos, caída de tensión y posible autoapagado del banco USB. También debemos prever apagado seguro para no corromper la microSD.
+
+## Montaje del transmisor (24 de noviembre)
+
+Ya se armó la primera versión del transmisor en `dinamita`. Los controles quedaron un poco distintos a lo planteado arriba: el LED de GPIO23 pasó a ser uno de tres, y GPIO24 se usa para un LED porque IRQ no se conectó. La asignación completa está en [integración](../../integracion/README.md).
+
+El radio se conectó con cables hembra-hembra directo al conector del módulo, sin pasar por la protoboard: el conector de 2×4 quedaría en corto por pares si se inserta. Se usó la misma tabla de arriba con dos cambios menores: GND en el pin 20 en vez del 25, solo por comodidad del cableado, y VCC en el pin 1. Hay que tener cuidado porque el pin 1 queda junto a los pines 2 y 4, que son de 5 V.
+
+Por ahora el módulo se alimenta directo del 3,3 V de la Pi y sin condensador de desacople, porque no teníamos. Así funciona en potencia LOW con los radios cerca, pero antes de subir la potencia para la prueba a 30 m hay que poner uno de 10 a 100 µF pegado a VCC y GND del módulo.
+
+Para la autonomía se están usando bancos USB conectados al puerto PWR IN. Falta revisar si se apagan solos con el consumo bajo de la Pi Zero.

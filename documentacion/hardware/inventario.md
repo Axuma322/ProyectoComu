@@ -32,3 +32,10 @@ El lector microSD externo y los módulos de audio no hacen falta para empezar. C
 Durante la visita registraremos por unidad: identificación, cantidad, disponibilidad, fotos legibles, tensión/pinout y resultado de prueba con fecha y responsable. Así distinguiremos material existente, identificado, probado y reservado. Primero comprobaremos alimentación y arranque; después SPI y enlace.
 
 Las características generales de las familias están en las [fuentes técnicas](../investigacion/fuentes.md). No se pueden atribuir al módulo concreto hasta identificarlo.
+
+## Lo que se confirmó al montar (24 de noviembre)
+
+- Los radios son módulos **NRF24L01+PA+LNA Ver 3.1** (viene impreso en la placa). El controlador de pyRF24 identifica el chip como nRF24L01+, así que 250 kbit/s sí está disponible.
+- Los dos módulos ya tienen antena montada con un adaptador SMA en ángulo. Falta confirmar en una prueba de enlace que el contacto central esté bien.
+- Una de las dos Pi arranca con normalidad pero nunca se conecta al Wi-Fi. Al cambiarle la tarjeta a la otra Pi, la tarjeta funcionó, así que el problema es de la placa. Hay que revisar si es una Zero sin W o si está dañada, y pedir otra Zero W en el laboratorio. Para el enlace no hace falta Wi-Fi, pero sin él no se puede programar por SSH.
+- Las tarjetas anteriores no estaban disponibles, así que se prepararon dos microSD nuevas: `dinamita` (8 GB, transmisor) y `lobo` (64 GB, receptor). Los detalles de instalación están en [transmisión](../../transmision/README.md).

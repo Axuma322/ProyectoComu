@@ -164,3 +164,22 @@ python3 -m unittest transmision.test_minimo -v
 
 La documentación anterior conserva la propuesta C++/RF24 y el protocolo futuro.
 Esta prueba usa Python/pyRF24 por decisión de esta iteración; no modifica esa investigación.
+
+## Primera prueba en hardware (24 de noviembre)
+
+Se instalaron las dos tarjetas con **Raspberry Pi OS (Legacy, 32-bit) Lite**, que es Bookworm con Python 3.11.2. Se escogió esa versión justamente por lo que se explica arriba: piwheels tiene pyRF24 0.4.1 para ARMv6 solo hasta Python 3.11, y la versión actual del sistema trae 3.13. Así no hubo que compilar nada.
+
+Lo que funcionó en ambas Pi, desde la raíz del repo:
+
+```bash
+sudo raspi-config nonint do_spi 0
+sudo apt install -y git python3-venv python3-pip python3-gpiozero
+python3 -m venv --system-site-packages .venv
+.venv/bin/pip install --only-binary=:all: --index-url https://www.piwheels.org/simple 'pyrf24==0.4.1'
+```
+
+`--system-site-packages` es para que el entorno también vea gpiozero, que se usa para los LED y el botón. La importación devolvió `Backend: SPIDEV` y aparecen `/dev/spidev0.0` y `/dev/spidev0.1`. El usuario por defecto ya está en el grupo `spi`, así que no hizo falta `sudo` para correr el diagnóstico.
+
+Con un radio conectado a `dinamita`, `diagnostico.py` respondió bien: inicializa por SPI, identifica el modelo como nRF24L01+ y muestra el LNA habilitado, con canal 40, 1 Mbit/s y potencia LOW según `config.json`. Todavía no se ha probado el envío entre dos radios; eso queda pendiente hasta tener la segunda Pi funcionando o conectar los dos radios a la misma Pi.
+
+Un detalle de la red: el nombre `.local` no resolvió en la red de prueba, así que para entrar por SSH se buscó la IP de cada Pi con un barrido de ping y `arp` (las Pi Zero W tienen MAC que empieza en `b8:27:eb`).
