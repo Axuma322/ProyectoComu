@@ -1,5 +1,7 @@
 # Prueba mínima con Python y pyRF24
 
+**Actualización del 25 de noviembre:** el equipo confirmó TX Zero W (`lobo@comu-tx.local`) y RX Pi 4 B (`lobor@comu-rx.local`), ambas con pyRF24 en `~/comu-venv`. Con `~/prueba_radio.py` recibieron `HOLA COMU` y obtuvieron `ACK=True`. Ese script remoto no está en el repositorio: no se reemplazó ni se supone que usa exactamente `config.json`. Las instrucciones siguientes describen la prueba mínima del repositorio y el montaje anterior. Para la web, consultar [Flask local](../integracion/web/README.md), que usa un entorno separado y no toca la prueba de radio.
+
 Kit K3 confirmado: dos Raspberry Pi Zero W, dos radios nRF24 con antenas
 externas, dos protoboards y cables. **Todavía no se ha probado este código en
 hardware.** Esta iteración solo inicializa los radios y envía texto corto.

@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="comu-token" content="{{ token }}">
+  <title>ProyectoComu · {{ role|upper }}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='app.css') }}">
+  <script defer src="{{ url_for('static', filename='app.js') }}"></script>
+</head>
+<body data-role="{{ role }}">
+<header><div class="brand">PROYECTOCOMU <span>{{ role|upper }}</span></div>
+  <h1>{{ 'Preparar una imagen' if role == 'tx' else 'Recepción de imágenes' }}</h1>
+  <p>{{ 'Interfaz transmisora · Raspberry Pi Zero W' if role == 'tx' else 'Interfaz receptora · Raspberry Pi 4 B' }}</p>
+</header>
+<main>
+  <aside class="notice"><strong>Etapa 1 · Interfaz local</strong>
+    <p>El enlace de texto por radio se probó por separado. Esta página todavía no envía ni recibe imágenes por nRF24.</p>
+  </aside>
+  {% if role == 'tx' %}
+  <section>
+    <h2>1. Imagen de origen</h2>
+    <form id="upload-form">
+      <label for="image-file">Cargar desde el teléfono a esta Raspberry</label>
+      <input id="image-file" name="imagen" type="file" accept=".bmp,.pgm" required>
+      <p class="hint">BMP o PGM · escala de grises · hasta 320 × 240 · máximo 2 MiB.</p>
+      <button type="submit">Guardar imagen en TX</button>
+    </form>
+    <label for="stored-image">O seleccionar una imagen ya almacenada en TX</label>
+    <select id="stored-image"><option value="">Cargando lista…</option></select>
+    <p id="image-details" class="hint"></p>
+    <div class="image-box"><img id="preview" alt="Vista previa local de la imagen seleccionada" hidden>
+      <p id="preview-empty">Selecciona una imagen para ver su contenido.</p></div>
+  </section>
+  <section>
+    <h2>2. Modo de codificación</h2>
+    <fieldset><legend>Selección para la integración futura</legend>
+      <label class="choice"><input type="radio" name="mode" value="sin_perdidas" checked> Sin pérdidas</label>
+      <label class="choice"><input type="radio" name="mode" value="con_perdidas"> Con pérdidas</label>
+    </fieldset>
+    <p class="hint">Los códecs y sus parámetros aún no están integrados. Guardar el modo no comprime la imagen ni modifica el DIP físico.</p>
+    <button id="save-selection" disabled>Guardar selección</button>
+  </section>
+  <section>
+    <h2>3. Transmisión</h2>
+    <button disabled aria-describedby="transmit-help">Iniciar transmisión · pendiente</button>
+    <p id="transmit-help">El envío de imágenes estará disponible al integrar el protocolo nRF24. No se inicia ninguna transmisión desde esta versión.</p>
+    <p id="saved-selection" class="hint"></p>
+  </section>
+  {% else %}
+  <section>
+    <h2>Estado de recepción</h2>
+    <p>Recepción de imágenes no integrada.</p>
+    <p class="hint">La interfaz web está disponible, pero no consulta el proceso de radio ni certifica que esté escuchando.</p>
+  </section>
+  <section>
+    <h2>Última imagen reconstruida</h2>
+    <div class="image-box"><p>Sin imagen recibida por esta interfaz.</p></div>
+  </section>
+  <section>
+    <h2>Métricas</h2>
+    <p>No disponibles: todavía no existe una transferencia de imagen integrada.</p>
+    <p class="hint">Tiempo, bytes, reintentos y fidelidad aparecerán cuando el receptor pueda medirlos. No se presentan valores de ejemplo.</p>
+  </section>
+  {% endif %}
+  <p id="feedback" role="status" aria-live="polite"></p>
+  <p id="connection-status" class="hint" role="status">Comprobando el servidor local…</p>
+  <noscript>Activa JavaScript para cargar imágenes y consultar el servidor local.</noscript>
+</main>
+<footer>Wi-Fi solo para la interfaz local. El enlace entre Raspberry seguirá siendo nRF24.<br>
+  Botón, interruptores y LED físicos se conservan; su integración con la web está pendiente.</footer>
+</body>
+</html>

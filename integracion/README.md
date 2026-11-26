@@ -1,6 +1,8 @@
 # Integración
 
-Aquí van quedando las piezas que juntan el radio, la codificación y los controles de cada Pi. Por ahora solo está la prueba de señalización del transmisor.
+Aquí van quedando las piezas que juntan el radio, la codificación y los controles de cada Pi. La [interfaz Flask](web/README.md) es independiente de la prueba de señalización: no abre el radio ni modifica los GPIO. TX es una Zero W y RX una Pi 4 B.
+
+La web permite cargar y seleccionar imágenes y guardar el modo en TX. La transferencia y los códecs siguen pendientes; RX no presenta imágenes ni métricas ficticias. La prueba de radio confirmada por el equipo (`~/prueba_radio.py`) se mantiene separada. Se prueba primero con el Wi-Fi actual, sin activar AP ni autoarranque.
 
 ## Prueba de LED, botón y DIP
 

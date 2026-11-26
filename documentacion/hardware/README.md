@@ -1,5 +1,7 @@
 # Conexión de la Pi Zero y el radio
 
+**Actualización del 25 de noviembre:** TX es una Zero W y RX una Pi 4 B. Se utilizará Android como interfaz web local de cada equipo; no se seleccionará ahora una pantalla HDMI. La [web Flask](../../integracion/web/README.md) no modifica radio ni GPIO: se conservan botón, DIP y LED del montaje. GPIO24 ya está asignado al LED azul, por lo que IRQ de radio permanece desconectada. Los apartados siguientes conservan la propuesta y el registro del montaje anterior.
+
 Usaremos los componentes del laboratorio antes de proponer compras. El [inventario](inventario.md) reúne lo observado y las comprobaciones pendientes; aquí dejamos la conexión inicial.
 
 ## SPI y señales de control

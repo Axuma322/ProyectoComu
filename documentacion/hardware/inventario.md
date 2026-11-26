@@ -1,5 +1,7 @@
 # Hardware disponible en el laboratorio
 
+**Actualización del 25 de noviembre:** el equipo confirmó TX Zero W (`comu-tx`, usuario `lobo`) y RX Pi 4 B (`comu-rx`, usuario `lobor`), detección nRF24L01+ y recepción real de `HOLA COMU` con ACK usando su prueba remota. Ambas tienen `~/comu-venv`. Se conserva abajo el registro anterior; el problema de la segunda Zero W ya no describe la plataforma RX actual. Los Android mostrarán las interfaces locales, conservando botones, interruptores y LED. El AP independiente de cada Pi aún no se activa.
+
 El equipo confirmó que los componentes de las fotografías existen en el Laboratorio de Telecomunicaciones de la UCR. Todavía no hemos contado las unidades, verificado sus modelos ni probado su funcionamiento.
 
 Las fotografías se revisaron el 16 de octubre de 2026, pero fueron retiradas del repositorio. Conservamos aquí las observaciones de esa revisión; no hicimos una nueva identificación visual. Las referencias abreviadas corresponden a archivos llamados `WhatsApp Image 2026-10-14 at [hora].jpeg`.

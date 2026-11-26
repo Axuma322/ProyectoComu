@@ -1,0 +1,28 @@
+:root { color-scheme: light; font: 16px/1.55 system-ui, sans-serif; color: #163329; background: #f2f5f1; }
+* { box-sizing: border-box; }
+body { margin: 0; }
+header, main, footer { max-width: 760px; margin: auto; padding: 24px; }
+header { padding-top: 36px; }
+.brand { font-weight: 800; letter-spacing: .1em; font-size: .85rem; }
+.brand span { background: #164d3a; color: white; border-radius: 5px; padding: 4px 9px; margin-left: 8px; }
+h1 { font-size: clamp(1.8rem, 6vw, 2.5rem); line-height: 1.2; margin: 24px 0 12px; }
+h2 { font-size: 1.2rem; margin-top: 0; }
+p { margin: 10px 0; }
+section, .notice { padding: 24px; border: 1px solid #d5dfd8; border-radius: 12px; background: white; margin-bottom: 20px; }
+.notice { background: #fff4d9; border-color: #d9b86c; }
+label { display: block; margin: 18px 0 8px; }
+input[type=file], select { width: 100%; font: inherit; padding: 12px; border: 1px solid #9bafa2; border-radius: 6px; background: #fff; }
+button { font: inherit; font-weight: 650; color: white; background: #17543c; padding: 12px 18px; border: 0; border-radius: 7px; cursor: pointer; margin: 8px 0; min-height: 48px; }
+button:disabled { color: #58655e; background: #e4e9e5; cursor: not-allowed; }
+button:focus-visible, input:focus-visible, select:focus-visible { outline: 3px solid #ae7416; outline-offset: 3px; }
+.hint, footer { font-size: .9rem; color: #4c6256; overflow-wrap: anywhere; }
+.image-box { display: grid; place-items: center; padding: 20px; background: #eef3ee; border-radius: 8px; min-height: 140px; text-align: center; }
+.image-box img { max-width: 100%; height: auto; }
+[hidden] { display: none !important; }
+fieldset { border: 1px solid #c8d5cb; border-radius: 7px; }
+.choice { display: flex; gap: 12px; align-items: center; min-height: 36px; }
+input[type=radio] { width: 20px; height: 20px; }
+#feedback { overflow-wrap: anywhere; font-weight: 600; }
+#feedback[data-error=true] { color: #a22424; }
+footer { padding-bottom: 40px; }
+@media (max-width: 480px) { header, main, footer { padding-left: 16px; padding-right: 16px; } section, .notice { padding: 18px; } button { width: 100%; } }

@@ -2,6 +2,8 @@
 
 IE0527 Ingeniería de Comunicaciones — UCR. Revisión: 17 de octubre de 2026.
 
+**Actualización del 25 de noviembre:** TX es una Zero W y RX una Pi 4 B. El equipo confirmó recepción de `HOLA COMU` con `ACK=True` mediante `~/prueba_radio.py`. La [primera interfaz Flask](../integracion/web/README.md) prepara imágenes en TX y muestra el estado de integración en RX; todavía no integra envío de imágenes ni códecs. Los Android se conectarán a la interfaz local de cada Pi y el enlace entre Pi seguirá siendo nRF24. Se conserva abajo el diseño inicial como antecedente.
+
 ## Qué vamos a construir
 
 Usaremos una Raspberry Pi Zero y un radio nRF24 en cada extremo. El transmisor leerá una imagen almacenada y la enviará por paquetes; el receptor deberá reunirlos, comprobar el archivo, guardarlo y mostrarlo. La codificación de fuente se incorporará más adelante.
