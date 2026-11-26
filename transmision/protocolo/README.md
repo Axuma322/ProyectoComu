@@ -1,5 +1,10 @@
 # Envío de datos por paquetes
 
+**Implementación vigente:** `transmision/archivos.py` implementa tramas de 32 bytes,
+fragmentos de 24 bytes, stop-and-wait, CRC-32 y confirmación final de reconstrucción.
+El documento siguiente conserva el diseño preliminar de ventanas y BLOCK_ACK;
+no se afirma que esa variante esté implementada. Ver [integración y pruebas](../../integracion/IMAGENES.md).
+
 La idea es construir un protocolo sencillo sobre RF24, con un transmisor de archivos y un receptor que permanece escuchando. Todavía no hemos fijado el formato binario ni implementado estas funciones. El radio aportará CRC, ACK y reintentos por paquete; nuestro programa controlará la transferencia completa. [Nordic y RF24](../../documentacion/investigacion/fuentes.md)
 
 ## Recorrido y estados

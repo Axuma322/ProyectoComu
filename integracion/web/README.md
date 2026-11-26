@@ -1,5 +1,21 @@
 # Interfaz local con Flask — primera versión
 
+**Operación Wi-Fi:** se aplicó la activación permanente de `Comu-TX` y `Comu-RX`.
+TX ya fue comprobada desde el teléfono; RX está pendiente de comprobación final.
+Las direcciones, SSH y retorno manual a PISO 3 están en
+[redes de operación](../../documentacion/despliegue/redes_definitivas.md).
+
+**Integración de imágenes:** la versión actual incorpora los códecs del equipo y
+el proceso nRF24. Instalación, parámetros, controles físicos y resultados reales
+están en [IMAGENES.md](../IMAGENES.md). Los apartados siguientes sobre botones
+deshabilitados, 501 e integración futura describen la primera versión anterior.
+
+**Decisión vigente:** Wi-Fi abierto en ambos extremos. El equipo confirmó teléfono,
+tablet, HTTP y carga BMP en el AP abierto de TX. La [migración persistente](RED_LOCAL.md)
+documenta SSID/IP definitivos, Flask automático, recuperación de cinco minutos que
+sobrevive al reinicio y preparación separada de RX. Los apartados antiguos de WPA
+y ensayos de 30 minutos que siguen son antecedentes, no la configuración final.
+
 TX: Pi Zero W, `lobo@comu-tx.local`. RX: Pi 4 B, `lobor@comu-rx.local`.
 El equipo confirmó mensajes `HOLA COMU` recibidos y `ACK=True` usando
 `~/prueba_radio.py` y `~/comu-venv`. Esta interfaz no modifica esa prueba ni importa
@@ -138,7 +154,7 @@ La web está pensada para la red de prueba de confianza; no incorpora cuentas de
 usuario. Un token de página protege modificaciones frente a peticiones externas
 sin cargar primero la interfaz. No publicar el puerto 8080 en Internet.
 
-## Diagnóstico común de los AP (26 de noviembre)
+## Diagnóstico histórico de autenticación (sustituido por redes abiertas)
 
 El requisito es conexión normal desde navegador Android o iPhone: Wi-Fi de 2,4 GHz,
 WPA2-Personal/RSN con AES/CCMP, DHCP y HTTP local. SSID visible, sin lista de MAC

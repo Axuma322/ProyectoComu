@@ -1,3 +1,4 @@
 Flask>=3.1.2,<4
 waitress>=3.0.2,<4
 Pillow>=9.4,<13
+numpy>=1.24,<3

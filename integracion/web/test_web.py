@@ -4,6 +4,7 @@ import json
 import re
 import tempfile
 import unittest
+import time
 from pathlib import Path
 
 from PIL import Image
@@ -43,7 +44,8 @@ class WebTests(unittest.TestCase):
         self.assertIsNone(state["metricas"])
         self.assertIsNone(state["seleccion"])
         response = self.client.post("/api/transmitir", headers=self.headers)
-        self.assertEqual(response.status_code, 501)
+        self.assertEqual(response.status_code, 400)
+        self.assertTrue(state['codificacion_integrada'])
         self.assertFalse(self.client.get("/api/estado").json["radio_integrado"])
 
     def test_upload_original_preview_and_persistent_selection(self):
@@ -114,7 +116,7 @@ class WebTests(unittest.TestCase):
         client = create_app("rx", self.root / "rx").test_client()
         self.assertEqual(client.get("/").status_code, 200)
         state = client.get("/api/estado").json
-        self.assertEqual(state["estado"], "recepcion_no_integrada")
+        self.assertEqual(state["estado"], "proceso_radio_detenido")
         self.assertIsNone(state["ultima_imagen"])
         self.assertIsNone(state["metricas"])
         self.assertEqual(client.post("/api/imagenes").status_code, 405)
@@ -128,6 +130,123 @@ class WebTests(unittest.TestCase):
     def test_role_required(self):
         with self.assertRaises(ValueError):
             create_app("invalid", self.root)
+
+    def test_local_codec_from_http_preserves_original_and_publishes_preview(self):
+        for mode in ('sin_perdidas', 'con_perdidas'):
+            name = self.upload().json['imagen']['nombre']
+            original = (self.root / 'imagenes' / name).read_bytes()
+            self.client.post('/api/seleccion', headers=self.headers,
+                             json=dict(imagen=name, modo=mode, bits=3))
+            self.assertEqual(self.client.post('/api/codificar', headers=self.headers).status_code, 202)
+            end = time.monotonic() + 15
+            while time.monotonic() < end:
+                state = self.client.get('/api/estado').json['codificacion']
+                if state['estado'] != 'codificando':
+                    break
+                time.sleep(0.05)
+            self.assertEqual(state['estado'], 'completado', state)
+            self.assertEqual(state['metricas']['modo'], mode)
+            self.assertEqual(self.client.get(state['vista']).mimetype, 'image/png')
+            download = self.client.get(state['descarga'])
+            self.assertEqual(download.status_code, 200)
+            download.close()
+            self.assertEqual((self.root / 'imagenes' / name).read_bytes(), original)
+
+    def test_quality_validation_and_real_worker_queue(self):
+        from .trabajos import write_json
+        name = self.upload().json['imagen']['nombre']
+        for bits in (0, 8, True, '4', 4.5):
+            self.assertEqual(self.client.post('/api/seleccion', headers=self.headers,
+                             json=dict(imagen=name, modo='con_perdidas', bits=bits)).status_code, 400)
+        self.client.post('/api/seleccion', headers=self.headers,
+                         json=dict(imagen=name, modo='con_perdidas', bits=6))
+        self.assertEqual(self.client.post('/api/transmitir', headers=self.headers).status_code, 503)
+        # Heartbeat de prueba local: no es una transmisión RF.
+        write_json(self.root / 'enlace.json', dict(heartbeat=time.time(), estado='esperando'))
+        result = self.client.post('/api/transmitir', headers=self.headers)
+        self.assertEqual(result.status_code, 202)
+        job = json.loads((self.root / 'cola' / (result.json['trabajo'] + '.json')).read_text())
+        self.assertEqual(job['bits'], 6)
+        self.assertEqual(self.client.post('/api/transmitir', headers=self.headers).status_code, 409)
+
+    def test_delete_tx_clears_selection_and_derived_files_but_keeps_other_images(self):
+        name = self.upload().json['imagen']['nombre']
+        other = self.upload(filename='conservar.bmp').json['imagen']['nombre']
+        self.client.post('/api/seleccion', headers=self.headers,
+                         json=dict(imagen=name, modo='sin_perdidas'))
+        from .trabajos import write_json
+        write_json(self.root / 'codificacion.json', dict(estado='completado', metricas=dict(nombre=name)))
+        (self.root / 'codificada').mkdir()
+        for artifact in ('archivo.bin', 'reconstruida'):
+            (self.root / 'codificada' / artifact).write_bytes(b'artefacto de prueba')
+        self.assertEqual(self.client.delete('/api/imagenes/' + name, headers=self.headers).status_code, 200)
+        self.assertFalse((self.root / 'imagenes' / name).exists())
+        self.assertTrue((self.root / 'imagenes' / other).exists())
+        self.assertIsNone(self.client.get('/api/estado').json['seleccion'])
+        self.assertIsNone(self.client.get('/api/estado').json['codificacion'])
+        self.assertEqual(list((self.root / 'codificada').iterdir()), [])
+        restarted = create_app('tx', self.root).test_client()
+        self.assertEqual([x['nombre'] for x in restarted.get('/api/imagenes').json['imagenes']], [other])
+
+    def test_delete_is_protected_and_cannot_remove_inflight_or_external_image(self):
+        name = self.upload().json['imagen']['nombre']
+        url = '/api/imagenes/' + name
+        self.assertEqual(self.client.delete(url).status_code, 403)
+        (self.root / 'ocupado').touch()
+        self.assertEqual(self.client.delete(url, headers=self.headers).status_code, 409)
+        self.assertTrue((self.root / 'imagenes' / name).exists())
+        (self.root / 'ocupado').unlink()
+        outside = self.root / 'conservar.bmp'
+        outside.write_bytes(self.image_bytes().getvalue())
+        (self.root / 'imagenes' / 'enlace.bmp').symlink_to(outside)
+        self.assertEqual(self.client.delete('/api/imagenes/enlace.bmp', headers=self.headers).status_code, 404)
+        self.assertEqual(self.client.delete('/api/imagenes/..%5Cconservar.bmp', headers=self.headers).status_code, 404)
+        self.assertTrue(outside.exists())
+
+    def test_rx_gallery_preserves_per_image_metrics_and_deletes_latest_then_all(self):
+        from integracion.enlace import make_wire, reconstruct
+        from transmision.codecs import encode
+        rxroot = self.root / 'rx'
+        client = create_app('rx', rxroot).test_client()
+        headers = self.token_headers(client)
+        source = self.root / 'fuente.bmp'
+        source.write_bytes(self.image_bytes().getvalue())
+        first = None
+        for session, mode in ((1, 'sin_perdidas'), (2, 'con_perdidas')):
+            data, meta = encode(source, mode, 4)
+            result = reconstruct(make_wire(data, meta), rxroot, session, 0.25)
+            if first is None:
+                first = result['nombre']
+        latest = result['nombre']
+        gallery = client.get('/api/recibidas').json['imagenes']
+        self.assertEqual(len(gallery), 2)
+        self.assertEqual({x['metricas']['modo'] for x in gallery}, {'sin_perdidas', 'con_perdidas'})
+        self.assertEqual(client.get('/recibidas/' + first + '/vista.png').status_code, 200)
+        self.assertEqual(client.get('/api/estado').json['ultima_imagen']['nombre'], latest)
+        self.assertEqual(client.delete('/api/recibidas/' + latest).status_code, 403)
+        self.assertEqual(client.delete('/api/recibidas/' + latest, headers=headers).status_code, 200)
+        self.assertFalse((rxroot / 'recepciones/00000002.json').exists())
+        state = client.get('/api/estado').json
+        self.assertEqual(state['ultima_imagen']['nombre'], first)
+        self.assertEqual(state['metricas']['modo'], 'sin_perdidas')
+        self.assertEqual(client.get('/recibidas/' + latest + '/vista.png').status_code, 404)
+        restarted = create_app('rx', rxroot).test_client()
+        self.assertEqual(len(restarted.get('/api/recibidas').json['imagenes']), 1)
+        self.assertEqual(client.delete('/api/recibidas/' + first, headers=headers).status_code, 200)
+        state = client.get('/api/estado').json
+        self.assertIsNone(state['ultima_imagen'])
+        self.assertIsNone(state['metricas'])
+
+    def test_rx_gallery_lists_legacy_image_without_inventing_metrics(self):
+        rxroot = self.root / 'rx'
+        client = create_app('rx', rxroot).test_client()
+        (rxroot / 'recibidas/antigua.bmp').write_bytes(self.image_bytes().getvalue())
+        gallery = client.get('/api/recibidas').json['imagenes']
+        self.assertEqual(len(gallery), 1)
+        self.assertIsNone(gallery[0]['metricas'])
+        self.assertEqual(client.get(gallery[0]['url']).status_code, 200)
+        headers = self.token_headers(client)
+        self.assertEqual(client.delete('/api/imagenes/antigua.bmp', headers=headers).status_code, 405)
 
 
 if __name__ == "__main__":

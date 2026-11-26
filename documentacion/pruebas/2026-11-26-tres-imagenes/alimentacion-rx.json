@@ -1,0 +1,1814 @@
+[
+  {
+    "segundos": 0.0,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 1.01,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 2.01,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 3.02,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 4.02,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 5.03,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 6.03,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 7.03,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 8.04,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 9.04,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 10.05,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 11.05,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 12.06,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 13.06,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 14.07,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 15.07,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 16.08,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 17.08,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 18.08,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 19.09,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 20.09,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 21.1,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 22.1,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 23.11,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 24.11,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 25.12,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 26.12,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 27.13,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 28.13,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 29.13,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 30.14,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 31.14,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 32.14,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 33.15,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 34.15,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 35.15,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 36.15,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 37.16,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 38.16,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 39.17,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 40.17,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 41.17,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 42.18,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 43.18,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 44.19,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 45.19,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 46.19,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 47.2,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 48.2,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 49.2,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 50.21,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 51.21,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 52.22,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 53.22,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 54.22,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 55.23,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 56.23,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 57.23,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 58.24,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 59.24,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 60.25,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 61.25,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 62.25,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 63.26,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 64.26,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 65.27,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 66.27,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 67.27,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 68.28,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 69.28,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 70.28,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 71.35,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 72.35,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 73.36,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 74.36,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 75.36,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 76.37,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 77.37,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 78.37,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 79.38,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 80.38,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 81.39,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 82.39,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 83.39,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 84.4,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 85.4,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 86.4,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 87.41,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 88.41,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 89.41,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 90.42,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 91.42,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 92.42,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 93.48,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 94.48,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 95.49,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 96.49,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 97.49,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 98.5,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 99.5,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 100.51,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 101.51,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 102.52,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 103.52,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 104.53,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 105.53,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 106.53,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 107.54,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 108.54,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 109.55,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 110.55,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 111.55,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 112.56,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 113.56,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 114.57,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 115.57,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 116.57,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 117.58,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 118.58,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 119.59,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 120.59,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 121.59,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 122.6,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 123.6,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 124.61,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 125.61,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 126.61,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 127.61,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 128.62,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 129.62,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 130.62,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 131.63,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 132.63,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 133.63,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 134.64,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 135.64,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 136.65,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 137.65,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 138.65,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 139.66,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 140.66,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 141.67,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 142.67,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 143.67,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 144.7,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 145.7,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 146.71,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 147.71,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 148.71,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 149.72,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 150.72,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 151.72,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 152.73,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 153.73,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 154.74,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 155.74,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 156.74,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 157.75,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 158.75,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 159.76,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 160.76,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 161.77,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 162.77,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 163.77,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 164.77,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 165.78,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 166.78,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 167.83,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 168.84,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 169.84,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 170.85,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 171.85,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 172.86,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 173.86,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 174.87,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 175.87,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 176.87,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 177.88,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 178.88,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 179.89,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 180.89,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 181.89,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 182.9,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 183.9,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 184.9,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 185.91,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 186.91,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 187.91,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 188.92,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 189.92,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 190.92,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 191.93,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 192.93,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 193.94,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 194.94,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 195.94,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 196.95,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 197.95,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 198.95,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 199.96,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 200.96,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 201.96,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 202.97,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 203.97,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 204.97,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 205.98,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 206.98,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 207.99,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 208.99,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 209.99,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 211.03,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 212.03,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 213.03,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 214.04,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 215.04,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 216.04,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 217.04,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 218.05,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 219.05,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 220.05,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 221.06,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 222.06,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 223.07,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 224.07,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 225.07,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 226.08,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 227.08,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 228.08,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 229.08,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 230.09,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 231.09,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 232.1,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 233.1,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 234.15,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 235.16,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 236.16,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 237.17,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 238.17,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 239.18,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 240.18,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 241.19,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 242.19,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 243.2,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 244.2,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 245.21,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 246.21,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 247.22,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 248.22,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 249.23,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 250.23,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 251.24,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 252.24,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 253.25,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 254.25,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 255.26,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 256.26,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 257.27,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 258.27,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 259.28,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 260.28,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 261.29,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 262.29,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 263.3,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 264.3,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 265.31,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 266.31,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 267.32,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 268.32,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 269.33,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 270.33,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 271.34,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 272.34,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 273.35,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 274.35,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 275.36,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 276.36,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 277.37,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 278.37,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 279.38,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 280.38,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 281.39,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 282.39,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 283.4,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 284.4,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 285.41,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 286.41,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 287.42,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 288.42,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 289.43,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 290.43,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 291.44,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 292.44,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 293.45,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 294.45,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 295.46,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 296.46,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 297.47,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 298.47,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 299.48,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 300.48,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 301.49,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "segundos": 302.49,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  }
+]

@@ -1,0 +1,15 @@
+[Unit]
+Description=Registro del primer arranque del AP ProyectoComu (%i)
+After=NetworkManager.service
+ConditionPathExists=/var/lib/proyectocomu/red-%i/pendiente.json
+
+[Service]
+Type=exec
+EnvironmentFile=/etc/proyectocomu/observador-%i.env
+ExecStart=/usr/bin/python3 /usr/local/libexec/proyectocomu/diagnostico_ap.py --profile ${COMU_AP_PROFILE} --interface wlan0 --port 8080 --history-minutes 5 --duration 720 --output /var/lib/proyectocomu/red-%i/observacion-%b
+RuntimeMaxSec=13min
+KillSignal=SIGINT
+UMask=0077
+
+[Install]
+WantedBy=multi-user.target

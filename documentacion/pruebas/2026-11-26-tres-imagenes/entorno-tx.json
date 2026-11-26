@@ -1,0 +1,23 @@
+{
+  "rol": "tx",
+  "modelo": "Raspberry Pi Zero W Rev 1.1",
+  "kernel": "6.18.50+rpt-rpi-v6",
+  "red_activa": [
+    "netplan-wlan0-PISO 3",
+    "lo"
+  ],
+  "configuracion_radio": {
+    "ce_pin": 22,
+    "csn": 0,
+    "spi_speed": 1000000,
+    "channel": 76,
+    "data_rate": "250KBPS",
+    "address": "COMU1"
+  },
+  "sha256_codigo": {
+    "transmision/archivos.py": "41b7314b41254e8e05ed4c52a82323ce0f3b65170321c26ef26be008f3f46253",
+    "transmision/enlace.py": "ee04c971c47010ec2746c83d0ea8f88c82642c46564e54e0b840f73254bfbdb5",
+    "integracion/enlace.py": "757a8cf0615007436d879847e485fb10ceb7bb91ef9d53f1b7bde85794445bb5",
+    "transmision/codecs.py": "25517752c7679b445702e5c80f26208b2770fa8132ce27c5538564e2830067a9"
+  }
+}

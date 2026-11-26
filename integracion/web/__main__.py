@@ -15,7 +15,7 @@ def main():
     if not 1 <= args.port <= 65535:
         parser.error("El puerto debe estar entre 1 y 65535")
     app = create_app(args.role, args.data_dir)
-    print(f"ProyectoComu {args.role.upper()} · puerto {args.port} · radio e imágenes no integrados", flush=True)
+    print(f"ProyectoComu {args.role.upper()} · interfaz local en puerto {args.port}", flush=True)
     serve(app, host=args.host, port=args.port, threads=2,
           max_request_body_size=app.config["MAX_CONTENT_LENGTH"])
 

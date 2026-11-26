@@ -1,0 +1,26 @@
+[
+  {
+    "archivo": "02_areas_uniformes.bmp",
+    "sha256": "d86143bde017996ff46666e0f8ba9bace1942ae28f55eb2a0d84d58c38e072d4",
+    "bytes": 77878,
+    "ancho": 320,
+    "alto": 240,
+    "almacenada_tx": "3658d2cb62c14d0e9b9bee3cd511ba6d_02_areas_uniformes.bmp"
+  },
+  {
+    "archivo": "03_detalle_fino.bmp",
+    "sha256": "8370cfa4b1b7e5f425bba3b3e2e997a04c2e370b6b6d9c57a2ac6e2849dca00d",
+    "bytes": 77878,
+    "ancho": 320,
+    "alto": 240,
+    "almacenada_tx": "7e67b3567830492fb91ea14ca554f3cb_03_detalle_fino.bmp"
+  },
+  {
+    "archivo": "04_patron_geometrico.bmp",
+    "sha256": "b6db6f282474aeb2a4245ae7b76f4849cc3d5a5e4701452f5bbfa084a40ec3a9",
+    "bytes": 77878,
+    "ancho": 320,
+    "alto": 240,
+    "almacenada_tx": "8af6e5504b0743a1b31a93a0bb6dda5c_04_patron_geometrico.bmp"
+  }
+]

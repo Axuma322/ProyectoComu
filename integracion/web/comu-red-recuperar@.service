@@ -1,0 +1,13 @@
+[Unit]
+Description=Volver a la red anterior de ProyectoComu (%i)
+Wants=NetworkManager.service
+After=NetworkManager.service
+StartLimitIntervalSec=0
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/python3 /usr/local/libexec/proyectocomu/red_local.py recuperar %i --solo-pendiente
+Restart=on-failure
+RestartSec=20s
+TimeoutStartSec=120s
+UMask=0077

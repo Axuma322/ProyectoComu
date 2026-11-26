@@ -1,0 +1,18 @@
+# Instancias: lobo (TX) y lobor (RX). Revisar rutas antes de instalar.
+[Unit]
+Description=Proceso nRF24 ProyectoComu (%i)
+After=network.target
+
+[Service]
+Type=exec
+User=%i
+WorkingDirectory=/home/%i/ProyectoComu
+EnvironmentFile=/etc/proyectocomu/web-%i.env
+Environment=PYTHONUNBUFFERED=1
+ExecStart=/home/%i/comu-web-venv/bin/python -m integracion.enlace --role ${COMU_ROLE}
+Restart=on-failure
+RestartSec=3
+UMask=0077
+
+[Install]
+WantedBy=multi-user.target

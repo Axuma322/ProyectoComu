@@ -1,0 +1,11 @@
+[Unit]
+Description=Recuperación temporal de la migración Wi-Fi ProyectoComu (%i)
+ConditionPathExists=/var/lib/proyectocomu/red-%i/pendiente.json
+
+[Timer]
+OnActiveSec=5min
+AccuracySec=1s
+Unit=comu-red-recuperar@%i.service
+
+[Install]
+WantedBy=timers.target

@@ -14,9 +14,6 @@
   <p>{{ 'Interfaz transmisora · Raspberry Pi Zero W' if role == 'tx' else 'Interfaz receptora · Raspberry Pi 4 B' }}</p>
 </header>
 <main>
-  <aside class="notice"><strong>Etapa 1 · Interfaz local</strong>
-    <p>El enlace de texto por radio se probó por separado. Esta página todavía no envía ni recibe imágenes por nRF24.</p>
-  </aside>
   {% if role == 'tx' %}
   <section>
     <h2>1. Imagen de origen</h2>
@@ -28,46 +25,57 @@
     </form>
     <label for="stored-image">O seleccionar una imagen ya almacenada en TX</label>
     <select id="stored-image"><option value="">Cargando lista…</option></select>
+    <button id="delete-image" class="danger" disabled>Borrar imagen seleccionada</button>
     <p id="image-details" class="hint"></p>
     <div class="image-box"><img id="preview" alt="Vista previa local de la imagen seleccionada" hidden>
       <p id="preview-empty">Selecciona una imagen para ver su contenido.</p></div>
   </section>
   <section>
     <h2>2. Modo de codificación</h2>
-    <fieldset><legend>Selección para la integración futura</legend>
-      <label class="choice"><input type="radio" name="mode" value="sin_perdidas" checked> Sin pérdidas</label>
-      <label class="choice"><input type="radio" name="mode" value="con_perdidas"> Con pérdidas</label>
+    <fieldset><legend>Algoritmo del equipo</legend>
+      <label class="choice"><input type="radio" name="mode" value="sin_perdidas" checked> Sin pérdidas · Huffman</label>
+      <label class="choice"><input type="radio" name="mode" value="con_perdidas"> Con pérdidas · cuantización uniforme</label>
+      <label class="choice"><input type="radio" name="mode" value="automatico"> Automático · menor archivo con PSNR ≥ 25 dB</label>
     </fieldset>
-    <p class="hint">Los códecs y sus parámetros aún no están integrados. Guardar el modo no comprime la imagen ni modifica el DIP físico.</p>
+    <label for="quality-bits">Calidad de cuantización (más bits conservan más detalle)</label>
+    <select id="quality-bits">
+      {% for bits in range(1, 8) %}<option value="{{ bits }}" {{ 'selected' if bits == 4 else '' }}>{{ bits }} bits por píxel</option>{% endfor %}
+    </select>
     <button id="save-selection" disabled>Guardar selección</button>
+    <button id="encode-local" disabled>Probar compresión en TX</button>
+    <p id="codec-status" class="hint"></p>
+    <div class="image-box"><img id="codec-preview" alt="Reconstrucción local en TX, sin transmisión" hidden></div>
+    <a id="codec-download" hidden>Descargar archivo codificado</a>
+    <div id="codec-metrics"></div>
   </section>
   <section>
     <h2>3. Transmisión</h2>
-    <button disabled aria-describedby="transmit-help">Iniciar transmisión · pendiente</button>
-    <p id="transmit-help">El envío de imágenes estará disponible al integrar el protocolo nRF24. No se inicia ninguna transmisión desde esta versión.</p>
+    <button id="transmit" disabled aria-describedby="transmit-help">Iniciar transmisión por nRF24</button>
+    <p id="transmit-help">El éxito se confirma cuando RX valida y guarda la imagen reconstruida. Un ACK del chip no basta.</p>
     <p id="saved-selection" class="hint"></p>
   </section>
   {% else %}
   <section>
-    <h2>Estado de recepción</h2>
-    <p>Recepción de imágenes no integrada.</p>
-    <p class="hint">La interfaz web está disponible, pero no consulta el proceso de radio ni certifica que esté escuchando.</p>
+    <h2>Imagen recibida</h2>
+    <p id="received-title" class="hint"></p>
+    <div class="image-box"><img id="received-preview" alt="Última imagen reconstruida en RX" hidden><p id="received-empty">Sin imagen recibida.</p></div>
   </section>
   <section>
-    <h2>Última imagen reconstruida</h2>
-    <div class="image-box"><p>Sin imagen recibida por esta interfaz.</p></div>
+    <h2>Imágenes guardadas en RX</h2>
+    <p class="hint">Las imágenes recibidas se conservan hasta que decidas borrarlas.</p>
+    <p id="received-count"></p>
+    <div id="received-gallery" class="gallery"></div>
   </section>
   <section>
     <h2>Métricas</h2>
-    <p>No disponibles: todavía no existe una transferencia de imagen integrada.</p>
-    <p class="hint">Tiempo, bytes, reintentos y fidelidad aparecerán cuando el receptor pueda medirlos. No se presentan valores de ejemplo.</p>
+    <div id="received-metrics"></div>
+    <p class="hint">MSE y PSNR provienen de la comparación local en TX. RX verifica SHA-256. BER físico no está disponible.</p>
   </section>
   {% endif %}
+  <section><h2>Estado del enlace</h2><p id="link-state" role="status"></p><progress id="link-progress" max="100" value="0"></progress>{% if role == 'tx' %}<div id="link-metrics"></div>{% endif %}</section>
   <p id="feedback" role="status" aria-live="polite"></p>
   <p id="connection-status" class="hint" role="status">Comprobando el servidor local…</p>
   <noscript>Activa JavaScript para cargar imágenes y consultar el servidor local.</noscript>
 </main>
-<footer>Wi-Fi solo para la interfaz local. El enlace entre Raspberry seguirá siendo nRF24.<br>
-  Botón, interruptores y LED físicos se conservan; su integración con la web está pendiente.</footer>
 </body>
 </html>
