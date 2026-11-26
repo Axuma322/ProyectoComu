@@ -85,14 +85,16 @@ def reconstruct(wire, root, session, elapsed):
 class Controls:
     """GPIO opcionales, todos en BCM; pinout en la guía de LED, botón y DIP.
 
-    RX solo crea LED. Su estado todavía no publica modo, por lo que el LED azul
-    no indica el códec recibido. Habilitar --gpio exige comprobar el montaje.
+    RX solo crea LED. Los patrones de parpadeo están en integracion/senales.py.
+    Habilitar --gpio exige comprobar el montaje.
     """
     def __init__(self, role):
         from gpiozero import LED, Button
+        from integracion.senales import Senales
         self.activity, self.mode, self.finished = LED(23), LED(24), LED(25)
         self.button = Button(17, pull_up=True, bounce_time=0.1) if role == 'tx' else None
         self.dips = [Button(p, pull_up=True) for p in (27, 5, 6, 13)] if role == 'tx' else []
+        self.senales = Senales(self.activity, self.mode, self.finished)
 
     def options(self):
         """Lee DIP al pulsar: automático prima; DIP2/3 eligen 2, 4, 6 o 7 bits."""
@@ -101,14 +103,11 @@ class Controls:
                     bits=(2, 4, 6, 7)[d[1] * 2 + d[2]])
 
     def show(self, state, mode=None):
-        # Rojo comparte fin y error; azul conserva el último modo comunicado.
-        # Son estados sostenidos, distintos de los parpadeos de hw_test.py.
-        self.activity.value = state in {'codificando', 'enviando', 'recibiendo'}
-        if mode:
-            self.mode.value = mode == 'con_perdidas'
-        self.finished.value = state in {'completado', 'error'}
+        # En TX el azul sigue al DIP mientras espera; ver senales.patron
+        self.senales.mostrar(state, mode, self.options() if self.dips else None)
 
     def close(self):
+        self.senales.cerrar()
         for device in [self.activity, self.mode, self.finished, self.button, *self.dips]:
             if device is not None:
                 device.close()
@@ -175,6 +174,9 @@ def main():
         with state_lock:
             if phase:
                 state['estado'] = phase
+            if controls and controls.dips:
+                # La web ya no elige modo: muestra lo que marcan los switches
+                values['dip'] = controls.options()
             state.update(values, heartbeat=time.time())
             write_json(root / 'enlace.json', state)
             last_write = time.monotonic()
@@ -195,7 +197,9 @@ def main():
     def completed(wire, session, elapsed):
         # Receiver envía el ACK de FIN solo cuando este callback regresa bien.
         result = reconstruct(wire, root, session, elapsed)
-        publish('completado', progreso=100, sesion=result['sesion'], error=None)
+        # modo para el LED azul de RX
+        publish('completado', progreso=100, sesion=result['sesion'], error=None,
+                modo=result['metricas']['modo'])
 
     try:
         endpoint = RadioEndpoint(config)
@@ -212,11 +216,13 @@ def main():
                     # Imagen de la selección web; opciones DIP solo para este
                     # trabajo. No sobrescribir preferencias guardadas del teléfono.
                     selected = read_json(root / 'seleccion.json')
-                    if selected:
-                        try:
-                            enqueue(root, dict(selected, **controls.options()))
-                        except RuntimeError:
-                            pass
+                    if not selected:
+                        controls.senales.aviso()  # no hay imagen elegida en la web
+                        return
+                    try:
+                        enqueue(root, dict(selected, **controls.options()))
+                    except RuntimeError:
+                        controls.senales.aviso()  # ya hay un envío en curso
                 controls.button.when_pressed = press
         receiver = Receiver(completed, progress)
         publish('esperando' if args.role == 'tx' else 'escuchando', gpio=args.gpio)

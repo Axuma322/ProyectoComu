@@ -20,8 +20,8 @@ flowchart LR
 ```
 
 1. La carga y la selección quedan en la microSD de TX. El original se conserva.
-2. La web encola una copia de imagen/modo/bits. El botón usa la imagen guardada
-   y toma modo/bits del DIP en el momento de pulsar. Comparten un bloqueo local.
+2. La web solo guarda qué imagen se usará. El botón toma esa imagen y lee
+   modo/bits del DIP al pulsar; solo el botón encola trabajos.
 3. TX codifica, reconstruye localmente y mide calidad. Genera metadatos con
    tamaños, dimensiones y SHA-256 esperado. Automático compara candidatos.
 4. El flujo es longitud de JSON de 4 bytes big-endian + JSON UTF-8 + binario
@@ -45,6 +45,7 @@ central ni llamadas HTTP entre las Raspberry en la operación del producto.
 | `integracion/web/static/app.css` | Presentación adaptable al teléfono |
 | `integracion/web/trabajos.py` | JSON atómico, heartbeat reciente, exclusión mediante `ocupado` y cola compartida con botón |
 | `integracion/enlace.py` | Propietario único del radio; trabajos TX, receptor, reconstrucción, diagnóstico y `Controls` opcional |
+| `integracion/senales.py` | Patrones de los LED (latido, envío, éxito, error, modo) y su hilo de actualización |
 | `transmision/codecs.py` | Adaptador HUF2/QPG1, modo automático, hashes, MSE/PSNR y tiempos locales |
 | `transmision/algoritmos/algoritmo_sin_perdidas/compresor_sin_perdidas.py` | Árbol y códigos Huffman del equipo; CLI integrada |
 | `transmision/algoritmos/algoritmo_sin_perdidas/descompresor_sin_perdidas.py` | Tabla/árbol, validación de códigos y decodificación acelerada, compatible con HUF2 |

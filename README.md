@@ -4,8 +4,8 @@ Proyecto del curso IE0527 Ingeniería de Comunicaciones de la UCR: **transmisió
 
 TX es una Raspberry Pi Zero W (`lobo@comu-tx.local`) y RX una Raspberry Pi 4 B (`lobor@comu-rx.local`). El equipo confirmó la primera transmisión real de `HOLA COMU`, con recepción correcta y `ACK=True`, usando `~/prueba_radio.py` y pyRF24 en `~/comu-venv` de cada placa. Esa prueba se conserva; sus archivos remotos no forman parte de este repositorio.
 
-La interfaz Flask permite seleccionar imagen y algoritmo, probar la compresión local
-y solicitar el envío por nRF24. Un proceso separado posee el radio, fragmenta el
+La interfaz Flask permite cargar y elegir la imagen y probar la compresión local;
+el modo se elige con el DIP y el envío se inicia con el botón físico de TX. Un proceso separado posee el radio, fragmenta el
 archivo y confirma la reconstrucción en RX. Se integraron Huffman y cuantización
 del equipo; consultar [instalación y pruebas reales](integracion/IMAGENES.md).
 Cada Pi sirve su interfaz al teléfono, sin servidor en la PC ni recursos de Internet.

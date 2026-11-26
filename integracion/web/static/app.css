@@ -36,3 +36,6 @@ input[type=radio] { width: 20px; height: 20px; }
 progress { width: 100%; height: 20px; }
 pre { white-space: pre-wrap; overflow-wrap: anywhere; }
 @media (max-width: 480px) { header, main { padding-left: 16px; padding-right: 16px; } section { padding: 18px; } button { width: 100%; } }
+.dip { font-size: 1.1rem; font-weight: 650; padding: 12px 14px; border-radius: 7px; background: #eef3ee; }
+.dip[data-off=true] { color: #a22424; background: #fbeeee; }
+.press { font-weight: 650; }

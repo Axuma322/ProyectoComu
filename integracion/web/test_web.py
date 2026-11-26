@@ -38,13 +38,14 @@ class WebTests(unittest.TestCase):
         return self.client.post("/api/imagenes", headers=self.headers,
                                 data={"imagen": (stream or self.image_bytes(), filename)})
 
-    def test_tx_empty_and_transmission_explicitly_unavailable(self):
+    def test_tx_empty_and_web_cannot_transmit(self):
         state = self.client.get("/api/estado").json
         self.assertFalse(state["radio_integrado"])
         self.assertIsNone(state["metricas"])
         self.assertIsNone(state["seleccion"])
+        # Solo el botón físico transmite
         response = self.client.post("/api/transmitir", headers=self.headers)
-        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.status_code, 403)
         self.assertTrue(state['codificacion_integrada'])
         self.assertFalse(self.client.get("/api/estado").json["radio_integrado"])
 
@@ -131,12 +132,16 @@ class WebTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             create_app("invalid", self.root)
 
-    def test_local_codec_from_http_preserves_original_and_publishes_preview(self):
+    def test_local_codec_uses_dip_and_preserves_original(self):
+        from .trabajos import write_json
+        name = self.upload().json['imagen']['nombre']
+        self.client.post('/api/seleccion', headers=self.headers, json=dict(imagen=name))
+        # Sin lectura de switches no hay modo que probar
+        self.assertEqual(self.client.post('/api/codificar', headers=self.headers).status_code, 409)
         for mode in ('sin_perdidas', 'con_perdidas'):
-            name = self.upload().json['imagen']['nombre']
             original = (self.root / 'imagenes' / name).read_bytes()
-            self.client.post('/api/seleccion', headers=self.headers,
-                             json=dict(imagen=name, modo=mode, bits=3))
+            write_json(self.root / 'enlace.json', dict(heartbeat=time.time(), estado='esperando',
+                                                       dip=dict(modo=mode, bits=4)))
             self.assertEqual(self.client.post('/api/codificar', headers=self.headers).status_code, 202)
             end = time.monotonic() + 15
             while time.monotonic() < end:
@@ -146,28 +151,35 @@ class WebTests(unittest.TestCase):
                 time.sleep(0.05)
             self.assertEqual(state['estado'], 'completado', state)
             self.assertEqual(state['metricas']['modo'], mode)
+            if mode == 'con_perdidas':
+                self.assertEqual(state['metricas']['bits'], 4)
             self.assertEqual(self.client.get(state['vista']).mimetype, 'image/png')
             download = self.client.get(state['descarga'])
             self.assertEqual(download.status_code, 200)
             download.close()
             self.assertEqual((self.root / 'imagenes' / name).read_bytes(), original)
 
-    def test_quality_validation_and_real_worker_queue(self):
-        from .trabajos import write_json
+    def test_quality_validation_and_button_queue(self):
+        from .trabajos import write_json, enqueue
         name = self.upload().json['imagen']['nombre']
         for bits in (0, 8, True, '4', 4.5):
             self.assertEqual(self.client.post('/api/seleccion', headers=self.headers,
                              json=dict(imagen=name, modo='con_perdidas', bits=bits)).status_code, 400)
-        self.client.post('/api/seleccion', headers=self.headers,
-                         json=dict(imagen=name, modo='con_perdidas', bits=6))
-        self.assertEqual(self.client.post('/api/transmitir', headers=self.headers).status_code, 503)
+        # El teléfono solo manda la imagen
+        self.assertEqual(self.client.post('/api/seleccion', headers=self.headers,
+                                          json=dict(imagen=name)).status_code, 200)
+        self.assertEqual(self.client.post('/api/transmitir', headers=self.headers).status_code, 403)
+        # Así encola el botón: imagen guardada + lo que diga el DIP
+        selected = json.loads((self.root / 'seleccion.json').read_text())
+        with self.assertRaises(RuntimeError):
+            enqueue(self.root, dict(selected, modo='con_perdidas', bits=6))
         # Heartbeat de prueba local: no es una transmisión RF.
         write_json(self.root / 'enlace.json', dict(heartbeat=time.time(), estado='esperando'))
-        result = self.client.post('/api/transmitir', headers=self.headers)
-        self.assertEqual(result.status_code, 202)
-        job = json.loads((self.root / 'cola' / (result.json['trabajo'] + '.json')).read_text())
-        self.assertEqual(job['bits'], 6)
-        self.assertEqual(self.client.post('/api/transmitir', headers=self.headers).status_code, 409)
+        job_id = enqueue(self.root, dict(selected, modo='con_perdidas', bits=6))
+        job = json.loads((self.root / 'cola' / (job_id + '.json')).read_text())
+        self.assertEqual((job['imagen'], job['bits']), (name, 6))
+        with self.assertRaises(RuntimeError):
+            enqueue(self.root, dict(selected, modo='con_perdidas', bits=6))
 
     def test_delete_tx_clears_selection_and_derived_files_but_keeps_other_images(self):
         name = self.upload().json['imagen']['nombre']

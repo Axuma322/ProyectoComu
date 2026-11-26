@@ -8,9 +8,10 @@
 | RX Pi 4 B | `Comu-RX` | http://192.168.60.1:8080 | `ssh lobor@192.168.60.1` |
 
 Encender ambas, conectar cada teléfono a la red correspondiente y permanecer
-conectado si avisa que no hay Internet. TX permite cargar BMP/PGM gris de hasta
-320 × 240, seleccionar modo y transmitir directamente. Probar compresión es
-opcional. RX guarda las recepciones en su galería. Borrar en una Raspberry
+conectado si avisa que no hay Internet. En TX el teléfono carga o elige el
+BMP/PGM gris de hasta 320 × 240; el modo se pone con el DIP y se transmite con
+el botón físico (la página muestra lo que marcan los switches). Probar
+compresión es opcional. RX guarda las recepciones en su galería. Borrar en una Raspberry
 no borra la copia de la otra. No cerrar la alimentación durante guardados;
 al terminar se puede apagar desde SSH con `sudo systemctl poweroff`.
 
@@ -113,7 +114,7 @@ Para ejecutar pruebas de software en una copia de desarrollo, sin abrir hardware
 
 ```bash
 ~/comu-web-venv/bin/python -m unittest \
-  transmision.test_minimo transmision.test_imagenes \
+  transmision.test_minimo transmision.test_imagenes integracion.test_senales \
   integracion.web.test_web integracion.web.test_red_local \
   integracion.web.test_diagnostico_ap -v
 ```

@@ -16,7 +16,7 @@ from PIL import Image, UnidentifiedImageError
 from werkzeug.exceptions import HTTPException
 from werkzeug.utils import secure_filename
 from transmision.codecs import encode, decode, validate_options
-from .trabajos import read_json, write_json, worker_state, enqueue
+from .trabajos import read_json, write_json, worker_state
 
 MAX_FILE_BYTES = 2 * 1024 * 1024
 MODES = {"sin_perdidas", "con_perdidas", "automatico"}
@@ -273,7 +273,11 @@ def create_app(role=None, data_dir=None):
 
     @app.post("/api/seleccion")
     def select():
+        # Desde el teléfono solo se elige la imagen. El modo real lo pone el DIP
+        # al presionar el botón; aquí queda un valor por defecto.
         value = request.get_json(silent=True)
+        if isinstance(value, dict):
+            value.setdefault("modo", "sin_perdidas")
         if not isinstance(value, dict) or value.get("modo") not in MODES:
             abort(400, description="Selecciona modo con pérdidas o sin pérdidas.")
         try:
@@ -292,7 +296,7 @@ def create_app(role=None, data_dir=None):
                 Path(temporary).replace(selection_path)
             finally:
                 Path(temporary).unlink(missing_ok=True)
-        return jsonify(seleccion=saved, mensaje="Selección guardada localmente. No se transmitió ningún dato.")
+        return jsonify(seleccion=saved, mensaje="Imagen elegida. Presione el botón del transmisor para enviarla.")
 
     @app.get("/imagenes/<name>/vista.png")
     def preview(name):
@@ -312,17 +316,8 @@ def create_app(role=None, data_dir=None):
 
     @app.post("/api/transmitir")
     def transmit():
-        """Acepta un trabajo local; el 202 todavía no acredita recepción en RX."""
-        saved = selection()
-        if not saved:
-            abort(400, description='Primero guarda la imagen y los parámetros de codificación.')
-        if not worker_state(root)['disponible']:
-            abort(503, description='El proceso nRF24 está detenido. Inicia integracion.enlace en ambas Raspberry.')
-        try:
-            job = enqueue(root, saved)
-        except RuntimeError as exc:
-            abort(409, description=str(exc))
-        return jsonify(trabajo=job, mensaje='Solicitud aceptada por TX; espera la confirmación real de RX.'), 202
+        # Se dejó la ruta para que una página vieja reciba un mensaje claro
+        abort(403, description='La transmisión se inicia con el botón físico del transmisor.')
 
     @app.post('/api/codificar')
     def compress_local():
@@ -331,7 +326,15 @@ def create_app(role=None, data_dir=None):
         nonlocal compression
         selected = selection()
         if not selected:
-            abort(400, description='Primero guarda una selección válida.')
+            abort(400, description='Primero elige una imagen.')
+        # Mismo modo y bits que usaría el botón en este momento
+        dip = worker_state(root).get('dip')
+        if not dip:
+            abort(409, description='No se leen los switches. El enlace debe correr con --gpio.')
+        try:
+            selected = dict(selected, **validate_options(dip['modo'], dip['bits']))
+        except (ValueError, KeyError, TypeError):
+            abort(409, description='Lectura de switches inválida.')
         with lock:
             if compression is not None and not compression.done():
                 abort(409, description='Ya hay una codificación local en curso.')

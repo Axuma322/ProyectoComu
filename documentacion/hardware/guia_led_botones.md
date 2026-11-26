@@ -36,11 +36,16 @@ Reservados para radio: BCM22/8/11/10/9, pines físicos 15/24/23/19/21.
 
 ## 2. Botón, DIP y LED durante la operación
 
-Primero cargar y guardar una imagen desde la web. Al pulsar, TX toma esa imagen
-y lee el DIP; los valores DIP sustituyen modo/bits para ese trabajo sin cambiar
-la selección guardada. Sin selección no se encola nada. Si ya hay un envío,
-la pulsación adicional no inicia otro. Antirrebote de producción: 0,1 s.
+Desde el 26 de noviembre el teléfono **solo elige la imagen**: cargarla o
+escogerla en la lista ya la deja lista. El modo y los bits se ponen con el DIP y
+la transmisión se inicia únicamente con el botón físico; la web ya no tiene
+botón de envío y `/api/transmitir` responde 403. La página muestra en vivo lo
+que marcan los switches. Si se pulsa sin imagen elegida, o con un envío en
+curso, no se encola nada y el LED rojo da unos destellos. Antirrebote: 0,1 s.
 RX escucha automáticamente; su worker no crea botón ni entradas DIP.
+
+Por esto **TX necesita `--gpio` siempre activo**; sin él no hay forma de
+transmitir. Ver [GPIO persistentes](../operacion.md#gpio-persistentes).
 
 | DIP 4 | DIP 1 | Modo al pulsar |
 |---|---|---|
@@ -55,20 +60,27 @@ RX escucha automáticamente; su worker no crea botón ni entradas DIP.
 | ON | OFF | 6 |
 | ON | ON | 7 |
 
-La web usa sus propios valores (1–7 bits); el DIP se consulta solo al pulsar.
-Cambiarlo durante una transmisión no cambia el trabajo en curso.
+El DIP se lee al pulsar; cambiarlo durante una transmisión no cambia el
+trabajo en curso. «Probar compresión» en la web usa también los valores DIP.
 
-| LED | Comportamiento de producción con `--gpio` |
-|---|---|
-| Verde | Encendido en `codificando`, `enviando` o `recibiendo` |
-| Azul | En TX refleja el último modo resuelto publicado: encendido con pérdidas; apagado sin pérdidas |
-| Rojo | Encendido en `completado` o `error`; no distingue éxito de fallo |
+Los patrones están en `integracion/senales.py` (función `patron`, probada en
+`integracion/test_senales.py` sin GPIO). Son iguales en TX y RX salvo el azul:
 
-No son patrones de parpadeo de progreso. El rojo se apaga al salir de esos
-estados; no cubre todos los fallos de inicialización. El azul no sigue el DIP
-en tiempo real. **En RX todavía falta propagar el modo recibido al estado que
-consume `Controls.show`; hoy su LED azul permanece apagado.** Esa adaptación
-y la prueba de los LED de RX son pendientes de integración, no de cableado.
+| Situación | Verde | Azul | Rojo |
+|---|---|---|---|
+| Arranque del worker | Barrido verde → azul → rojo, una vez | | |
+| TX esperando / RX escuchando | Destello corto cada 2 s | Ver abajo | Apagado |
+| Codificando (TX) | Parpadeo rápido | | |
+| Enviando / recibiendo | Fijo | | |
+| Completado y confirmado | 3 destellos, luego vuelve al latido | | Apagado |
+| Error de la transferencia | Apagado | | Parpadeo rápido 5 s, luego fijo |
+| Error del radio o detenido | Apagado | | Fijo |
+| Botón sin imagen o ya ocupado | | | Destellos durante 1 s |
+
+Azul en TX: mientras espera (o después de un envío) sigue al DIP en tiempo real.
+Apagado sin pérdidas, encendido con pérdidas, parpadeo lento automático. Durante
+el envío muestra el modo que realmente se resolvió. Azul en RX: modo con que
+llegó la última imagen (encendido con pérdidas).
 
 ## 3. Probar el montaje sin transmitir
 

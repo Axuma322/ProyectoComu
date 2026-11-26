@@ -10,6 +10,7 @@ let radioAvailable = false;
 let linkBusy = false;
 let localBusy = false;
 let txAction = false;
+let dipOk = false;
 let received = [];
 let selectedReceived = null;
 let followLatest = true;
@@ -77,9 +78,7 @@ function renderMetrics(target, metrics) {
 
 function updateTxButtons() {
   const hasImage = Boolean(document.querySelector('#stored-image').value);
-  document.querySelector('#save-selection').disabled = !hasImage || txAction;
-  document.querySelector('#encode-local').disabled = !hasImage || localBusy || txAction;
-  document.querySelector('#transmit').disabled = !hasImage || !radioAvailable || linkBusy || txAction;
+  document.querySelector('#encode-local').disabled = !hasImage || !dipOk || localBusy || txAction;
   document.querySelector('#delete-image').disabled = !hasImage || linkBusy || localBusy || txAction;
 }
 
@@ -163,9 +162,17 @@ async function refreshState() {
       radioAvailable = data.radio_integrado;
       linkBusy = ['codificando', 'enviando'].includes(state.estado);
       localBusy = data.codificacion?.estado === 'codificando';
+      // Modo que usará el botón, tal como lo leen los switches
+      const dip = state.dip;
+      const dipText = document.querySelector('#dip-mode');
+      dipOk = Boolean(dip) && radioAvailable;
+      dipText.dataset.off = String(!dipOk);
+      if (!dipOk) dipText.textContent = 'No se leen los switches (el enlace debe correr con --gpio).';
+      else if (dip.modo === 'con_perdidas') dipText.textContent = `Con pérdidas · ${dip.bits} bits por píxel`;
+      else dipText.textContent = modeLabel(dip.modo)[0].toUpperCase() + modeLabel(dip.modo).slice(1);
       updateTxButtons();
       renderMetrics(document.querySelector('#link-metrics'), data.metricas);
-      document.querySelector('#saved-selection').textContent = data.seleccion ? `Guardado en TX: ${data.seleccion.etiqueta} · ${modeLabel(data.seleccion.modo)}.` : 'Todavía no hay una selección guardada en TX.';
+      document.querySelector('#saved-selection').textContent = data.seleccion ? `Imagen que enviará el botón: ${data.seleccion.etiqueta}.` : 'Todavía no hay imagen elegida.';
       const codec = data.codificacion;
       document.querySelector('#codec-status').textContent = codec ? (codec.error || `Codificación local: ${codec.estado}`) : 'No se ha probado la compresión local.';
       if (codec?.estado === 'completado') {
@@ -213,7 +220,15 @@ if (role === 'tx') {
     if (preferred && images.some(image => image.nombre === preferred)) select.value = preferred;
     showPreview();
   }
-  select.addEventListener('change', showPreview);
+  async function chooseImage() {
+    // Elegir en la lista ya la deja lista para el botón
+    showPreview();
+    if (!select.value) return;
+    try { message((await api('/api/seleccion', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({imagen: select.value})})).mensaje); }
+    catch (error) { message(error.message, true); }
+    finally { await refreshState(); }
+  }
+  select.addEventListener('change', chooseImage);
   document.querySelector('#upload-form').addEventListener('submit', async event => {
     event.preventDefault();
     const button = event.target.querySelector('button');
@@ -222,21 +237,10 @@ if (role === 'tx') {
     try {
       const data = await api('/api/imagenes', {method: 'POST', body: new FormData(event.target)});
       await refreshImages(data.imagen.nombre);
-      message('Imagen guardada en TX.');
+      await chooseImage();
       event.target.reset();
     } catch (error) { message(error.message, true); }
     finally { button.disabled = false; }
-  });
-  async function saveCurrent() {
-    // Compresión y transmisión guardan primero los valores visibles del formulario.
-    return api('/api/seleccion', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({imagen: select.value, modo: document.querySelector('input[name="mode"]:checked').value, bits: Number(document.querySelector('#quality-bits').value)})});
-  }
-  document.querySelector('#save-selection').addEventListener('click', async () => {
-    txAction = true;
-    updateTxButtons();
-    try { message((await saveCurrent()).mensaje); }
-    catch (error) { message(error.message, true); }
-    finally { txAction = false; await refreshState(); }
   });
   document.querySelector('#delete-image').addEventListener('click', async () => {
     const item = images.find(image => image.nombre === select.value);
@@ -250,24 +254,16 @@ if (role === 'tx') {
     } catch (error) { message(error.message, true); }
     finally { txAction = false; await refreshState(); }
   });
-  for (const [id, route] of [['encode-local', '/api/codificar'], ['transmit', '/api/transmitir']]) {
-    document.querySelector('#' + id).addEventListener('click', async () => {
-      txAction = true;
-      updateTxButtons();
-      try {
-        await saveCurrent();
-        message((await api(route, {method: 'POST'})).mensaje);
-      } catch (error) { message(error.message, true); }
-      finally { txAction = false; await refreshState(); }
-    });
-  }
+  document.querySelector('#encode-local').addEventListener('click', async () => {
+    txAction = true;
+    updateTxButtons();
+    try { message((await api('/api/codificar', {method: 'POST'})).mensaje); }
+    catch (error) { message(error.message, true); }
+    finally { txAction = false; await refreshState(); }
+  });
   (async () => {
     try {
       const state = await api('/api/estado');
-      if (state.seleccion) {
-        document.querySelector(`input[value="${state.seleccion.modo}"]`).checked = true;
-        document.querySelector('#quality-bits').value = state.seleccion.bits;
-      }
       await refreshImages(state.seleccion?.imagen);
     } catch (error) { message('No se pudo leer la lista de imágenes. Recarga al recuperar la conexión.', true); }
   })();

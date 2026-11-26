@@ -31,18 +31,10 @@
       <p id="preview-empty">Selecciona una imagen para ver su contenido.</p></div>
   </section>
   <section>
-    <h2>2. Modo de codificación</h2>
-    <fieldset><legend>Algoritmo del equipo</legend>
-      <label class="choice"><input type="radio" name="mode" value="sin_perdidas" checked> Sin pérdidas · Huffman</label>
-      <label class="choice"><input type="radio" name="mode" value="con_perdidas"> Con pérdidas · cuantización uniforme</label>
-      <label class="choice"><input type="radio" name="mode" value="automatico"> Automático · menor archivo con PSNR ≥ 25 dB</label>
-    </fieldset>
-    <label for="quality-bits">Calidad de cuantización (más bits conservan más detalle)</label>
-    <select id="quality-bits">
-      {% for bits in range(1, 8) %}<option value="{{ bits }}" {{ 'selected' if bits == 4 else '' }}>{{ bits }} bits por píxel</option>{% endfor %}
-    </select>
-    <button id="save-selection" disabled>Guardar selección</button>
-    <button id="encode-local" disabled>Probar compresión en TX</button>
+    <h2>2. Modo (switches del transmisor)</h2>
+    <p id="dip-mode" class="dip" role="status">Leyendo los switches…</p>
+    <p class="hint">DIP 1: con o sin pérdidas · DIP 2 y 3: bits (2, 4, 6 o 7) · DIP 4: automático. El LED azul repite lo mismo.</p>
+    <button id="encode-local" disabled>Probar compresión con este modo</button>
     <p id="codec-status" class="hint"></p>
     <div class="image-box"><img id="codec-preview" alt="Reconstrucción local en TX, sin transmisión" hidden></div>
     <a id="codec-download" hidden>Descargar archivo codificado</a>
@@ -50,8 +42,8 @@
   </section>
   <section>
     <h2>3. Transmisión</h2>
-    <button id="transmit" disabled aria-describedby="transmit-help">Iniciar transmisión por nRF24</button>
-    <p id="transmit-help">El éxito se confirma cuando RX valida y guarda la imagen reconstruida. Un ACK del chip no basta.</p>
+    <p class="press">Presione el botón del transmisor para enviar la imagen elegida.</p>
+    <p class="hint">El LED verde parpadea mientras codifica y queda fijo mientras transmite. Tres destellos verdes: RX validó y guardó la imagen. Rojo parpadeando: falló.</p>
     <p id="saved-selection" class="hint"></p>
   </section>
   {% else %}

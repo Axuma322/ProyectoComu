@@ -14,10 +14,10 @@ pues depende de `transmision/` y del resto de integración.
 
 ## Uso
 
-En TX: cargar una BMP/PGM gris de hasta 320 × 240 y 2 MiB, elegirla, seleccionar
-modo y bits e iniciar transmisión. Los botones de compresión y transmisión
-guardan primero lo elegido en pantalla. **Probar compresión en TX** es opcional;
-no es requisito para transmitir.
+En TX: cargar o elegir una BMP/PGM gris de hasta 320 × 240 y 2 MiB; elegirla
+ya la deja lista para el botón. El modo y los bits los pone el DIP (la página
+los muestra en vivo) y se transmite con el botón físico; desde la web no se
+puede transmitir. **Probar compresión** usa el modo del DIP y es opcional.
 
 En RX: observar recepción, abrir imágenes guardadas y consultar sus métricas.
 La galería sobrevive al reinicio. Se pueden borrar imágenes individualmente en
@@ -35,9 +35,9 @@ envío de radio. No existe corte global de 60 s.
 | `GET /api/imagenes` | Catálogo de fuentes TX |
 | `POST /api/imagenes` | Subida multipart, campo `imagen`, en TX |
 | `DELETE /api/imagenes/<nombre>` | Borrar fuente y, si corresponde, selección y derivados TX |
-| `POST /api/seleccion` | JSON con `imagen`, `modo`, `bits` |
-| `POST /api/codificar` | Compresión local asíncrona; no transmite |
-| `POST /api/transmitir` | Encolar; HTTP 202 devuelve `trabajo` |
+| `POST /api/seleccion` | JSON con `imagen`; `modo` y `bits` son opcionales, el botón usa el DIP |
+| `POST /api/codificar` | Compresión local asíncrona con modo/bits del DIP (409 sin `--gpio`); no transmite |
+| `POST /api/transmitir` | Desactivada: responde 403, se transmite con el botón físico |
 | `GET /api/recibidas` | Galería RX con metadatos por recepción |
 | `DELETE /api/recibidas/<nombre>` | Borrar imagen y su registro RX |
 | `GET /imagenes/<nombre>/vista.png` | Vista de fuente TX |
@@ -45,8 +45,8 @@ envío de radio. No existe corte global de 60 s.
 | `GET /recibidas/<nombre>/vista.png` | Vista de una imagen RX |
 
 Las operaciones de cambio usan el token de página en `X-Comu-Token`.
-Un 202 significa solicitud aceptada, no recepción confirmada. El resultado se
-consulta por trabajo en `/api/estado` y queda en `resultados/<trabajo>.json` en TX.
+El resultado de cada envío se consulta en `/api/estado`, que también trae el
+DIP leído (`enlace.dip`), y queda en `resultados/<trabajo>.json` en TX.
 Un heartbeat reciente acredita el proceso local, sin probar que RX esté encendida
 ni que una imagen se haya entregado.
 

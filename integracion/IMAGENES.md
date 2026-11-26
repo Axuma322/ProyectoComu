@@ -36,12 +36,13 @@ reescala ni se convierte una foto en color de forma silenciosa.
 
 ## Web
 
-TX permite cargar/seleccionar imagen, guardar algoritmo y calidad y:
+TX permite cargar y elegir la imagen. El algoritmo y la calidad se ponen con
+el DIP y la página los muestra; la transmisión se inicia con el botón físico.
 
-1. **Probar compresión en TX**: comprime y reconstruye localmente, muestra
-   métricas medidas, vista previa y descarga del binario. No transmite nada.
-2. **Iniciar transmisión por nRF24**: coloca una solicitud para el proceso de
-   radio. El botón queda deshabilitado si ese proceso no está activo.
+1. **Probar compresión**: con el modo del DIP comprime y reconstruye
+   localmente, muestra métricas, vista previa y descarga del binario. No transmite.
+2. **Botón físico**: encola la imagen elegida con el modo del DIP. Requiere el
+   enlace con `--gpio`.
 
 RX muestra el estado real del proceso de enlace, la última imagen guardada y
 sus métricas. La última recepción sigue visible aunque se detenga el radio.
