@@ -1,0 +1,22 @@
+# Plantilla preparada; no instalar ni habilitar sin revisar rutas y servicio actual.
+# Instancias: comu-web@lobo (TX), comu-web@lobor (RX, más adelante).
+[Unit]
+Description=Interfaz web local ProyectoComu (%i)
+After=network.target
+
+[Service]
+Type=exec
+User=%i
+WorkingDirectory=/home/%i/ProyectoComu
+EnvironmentFile=/etc/proyectocomu/web-%i.env
+Environment=PYTHONUNBUFFERED=1
+ExecStart=/home/%i/comu-web-venv/bin/python -m integracion.web --role ${COMU_ROLE} --host 0.0.0.0 --port 8080
+Restart=on-failure
+RestartSec=3
+UMask=0077
+NoNewPrivileges=true
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
