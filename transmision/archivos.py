@@ -16,12 +16,14 @@ MAX_WIRE = 256 * 1024
 
 
 def packet(kind, session, index=0, body=b''):
+    """Construye 32 bytes; el receptor recorta el relleno con la longitud START."""
     if len(body) > CHUNK:
         raise ValueError('Fragmento demasiado grande')
     return HEADER.pack(MAGIC, kind, session, index) + body.ljust(CHUNK, b'\0')
 
 
 def unpack(raw):
+    """Rechaza longitud, identificador de formato o tipo ajenos al protocolo."""
     if len(raw) != 32:
         raise ValueError('Trama incompleta')
     magic, kind, session, index = HEADER.unpack_from(raw)
@@ -31,17 +33,24 @@ def unpack(raw):
 
 
 class Receiver:
+    """Reensambla una sesión activa y reconoce cierres repetidos durante 90 s.
+
+    complete recibe el flujo completo, sesión e intervalo local. Debe validar y
+    guardar antes de volver: de eso depende el estado del ACK final.
+    """
     def __init__(self, complete, progress=lambda *_: None):
         self.complete, self.progress = complete, progress
         self.current = None
         self.closed = {}
 
     def expire(self):
+        """Caduca por silencio de TX, no por duración total de la transferencia."""
         if self.current and time.monotonic() - self.current['seen'] > 10:
             self.progress(0, self.current['size'], 'Recepción incompleta: TX dejó de enviar fragmentos')
             self.current = None
 
     def handle(self, raw):
+        """Devuelve ACK de aplicación o None; un duplicado no duplica datos."""
         try:
             kind, session, index, body = unpack(raw)
         except ValueError:
@@ -51,6 +60,7 @@ class Receiver:
         now = time.monotonic()
         self.closed = {k: v for k, v in self.closed.items() if now - v[0] < 90}
         if kind == FIN and session in self.closed:
+            # Un ACK final perdido no obliga a decodificar/guardar dos veces.
             return packet(ACK, session, index, bytes([kind, self.closed[session][1]]))
         self.expire()
         status = 0
@@ -76,6 +86,7 @@ class Receiver:
                     status = 1
                 else:
                     if index not in current['parts']:
+                        # Contador incremental: un reintento no aumenta progreso.
                         current['received'] += len(chunk)
                     current['parts'][index] = chunk
                     self.progress(current['received'], current['size'])
@@ -101,6 +112,12 @@ class Receiver:
 
 
 def send_file(endpoint, data, progress=lambda *_: None, deadline=None, retries=4, diagnostics=None):
+    """Envía un flujo con ACK por trama y confirmación de guardado en RX.
+
+    endpoint aporta send/receive; retries cuenta repeticiones tras el primer
+    intento. deadline, si se proporciona, es un instante monotónico absoluto;
+    None permite superar 60 s. diagnostics se actualiza también antes de fallar.
+    """
     if not 1 <= len(data) <= MAX_WIRE:
         raise ValueError('Flujo codificado fuera del límite de transporte')
     # Sin plazo global por defecto: una transferencia que avanza puede superar
@@ -118,6 +135,8 @@ def send_file(endpoint, data, progress=lambda *_: None, deadline=None, retries=4
                  escritura_radio_ms=0.0, espera_ack_ms=0.0, latencia_ack_max_ms=0.0)
 
     def exchange(kind, index=0, body=b''):
+        # La respuesta debe coincidir en tipo, sesión, índice y trama confirmada.
+        # Un ACK hardware o de otra transacción no acredita este fragmento.
         nonlocal frames, repeats
         stats.update(fase={START: 'START', DATA: 'DATA', FIN: 'FIN'}[kind], indice=index)
         for attempt in range(retries + 1):

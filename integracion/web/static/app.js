@@ -1,4 +1,6 @@
 "use strict";
+// Cliente de la Raspberry actual: no envía HTTP a la otra Pi ni inventa progreso.
+// Las métricas vienen del worker; las imágenes de la galería viven en RX.
 const role = document.body.dataset.role;
 const token = document.querySelector('meta[name="comu-token"]').content;
 const feedback = document.querySelector("#feedback");
@@ -22,6 +24,7 @@ function message(text, error = false) {
 }
 
 async function api(url, options = {}) {
+  // Esta espera limita una petición HTTP, no la duración de un envío por nRF24.
   const response = await fetch(url, {
     ...options, cache: "no-store", signal: AbortSignal.timeout(10000),
     headers: { "X-Comu-Token": token, ...options.headers }
@@ -95,6 +98,7 @@ function showReceived() {
 }
 
 async function refreshReceived(latest) {
+  // Conservar la elección de una imagen histórica salvo que se siga la última.
   received = (await api('/api/recibidas')).imagenes;
   if (followLatest || !received.some(item => item.nombre === selectedReceived)) {
     selectedReceived = received.some(item => item.nombre === latest?.nombre) ? latest.nombre : (received[0]?.nombre || null);
@@ -224,6 +228,7 @@ if (role === 'tx') {
     finally { button.disabled = false; }
   });
   async function saveCurrent() {
+    // Compresión y transmisión guardan primero los valores visibles del formulario.
     return api('/api/seleccion', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({imagen: select.value, modo: document.querySelector('input[name="mode"]:checked').value, bits: Number(document.querySelector('#quality-bits').value)})});
   }
   document.querySelector('#save-selection').addEventListener('click', async () => {
@@ -268,6 +273,7 @@ if (role === 'tx') {
   })();
 }
 (async function poll() {
+  // Programar después de terminar evita acumular consultas si la web va lenta.
   await refreshState();
   setTimeout(poll, 3000);
 })();

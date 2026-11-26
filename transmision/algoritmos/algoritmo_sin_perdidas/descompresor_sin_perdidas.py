@@ -72,6 +72,12 @@ def build_tree(coding):
 
 
 def decompress_payload(payload, tree, expected_length=FILE_LENGTH):
+    """Recupera bytes exactos con tabla rápida y árbol para códigos largos.
+
+    HUF2 proporciona la longitud del archivo completo; FILE_LENGTH conserva
+    compatibilidad con la entrada antigua de píxeles 320x240. El relleno final
+    debe ser de cero a siete bits nulos, sin permitir datos sobrantes.
+    """
     if expected_length < 1:
         raise ValueError('La longitud esperada debe ser positiva')
     # Los códigos cortos se resuelven con una consulta por símbolo, evitando

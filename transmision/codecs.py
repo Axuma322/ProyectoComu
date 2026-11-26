@@ -13,6 +13,7 @@ from .algoritmos.algoritmo_sin_perdidas.descompresor_sin_perdidas import (
     read_huffman_header, build_tree, decompress_payload)
 
 MAX_BYTES = 2 * 1024 * 1024
+# HUF2: firma, longitud original de 32 bits y cantidad de símbolos de 16 bits.
 HUFF = struct.Struct('>4sIH')
 
 
@@ -25,6 +26,7 @@ def validate_options(mode, bits=4):
 
 
 def huffman_encode(data):
+    """Codifica todos los bytes, no solo píxeles; conserva cabecera y paleta."""
     if not 1 <= len(data) <= MAX_BYTES:
         raise ValueError('Tamaño de archivo fuera del límite')
     codes = huffmanCodes({bytes([k]): v for k, v in Counter(data).items()})
@@ -50,6 +52,7 @@ def huffman_encode(data):
 
 
 def huffman_decode(data):
+    """Lee la tabla transmitida y exige longitud y relleno exactos de HUF2."""
     if len(data) < HUFF.size:
         raise ValueError('Cabecera Huffman incompleta')
     magic, size, count = HUFF.unpack_from(data)
@@ -61,6 +64,7 @@ def huffman_decode(data):
 
 
 def pixels(data):
+    """Obtiene grises para medir calidad; no modifica el archivo fuente."""
     with Image.open(io.BytesIO(data)) as image:
         if not (1 <= image.width <= 320 and 1 <= image.height <= 240):
             raise ValueError('Dimensiones fuera del límite')
@@ -69,6 +73,7 @@ def pixels(data):
 
 
 def decode(data, mode):
+    """Reconstruye bytes del original o un PGM; QPG1 se lee en modo estricto."""
     if mode == 'sin_perdidas':
         return huffman_decode(data)
     if mode != 'con_perdidas':
@@ -79,6 +84,11 @@ def decode(data, mode):
 
 
 def encode(path, mode, bits=4):
+    """Prepara un envío sin radio: codifica, reconstruye, mide y calcula hashes.
+
+    Los candidatos automáticos se evalúan en TX. La validación local asegura el
+    hash que luego exigirá RX, sin transportar una segunda copia del original.
+    """
     validate_options(mode, bits)
     path = Path(path)
     original = path.read_bytes()
@@ -92,6 +102,7 @@ def encode(path, mode, bits=4):
             raise ValueError('La paleta de origen debe ser de grises')
     started = time.monotonic()
     if mode == 'automatico':
+        # 25 dB es el objetivo de selección implementado, no una medición RF.
         candidates = [encode(path, 'sin_perdidas')]
         for level in range(1, 8):
             candidate = encode(path, 'con_perdidas', level)
@@ -108,6 +119,8 @@ def encode(path, mode, bits=4):
         encoded = comprimir_pgm(path, bits)
     compression_ms = (time.monotonic() - started) * 1000
     restored = decode(encoded, mode)
+    # La comparación es local. RX recibe estos valores como calculados en TX;
+    # comprueba el hash de su propia reconstrucción, no inventa calidad o BER.
     after = pixels(restored)
     if before.size != after.size:
         raise ValueError('El códec modificó las dimensiones')

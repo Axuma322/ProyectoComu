@@ -2,6 +2,12 @@
 
 IE0527 Ingeniería de Comunicaciones — UCR. Revisión: 17 de octubre de 2026.
 
+**Documento histórico.** Sus propuestas y pendientes reflejan esa etapa.
+La integración vigente y las pruebas están en el [índice actual](README.md);
+la web ya transmite imágenes en ambos modos, RX es una Pi 4 B y los teléfonos
+usan AP locales. El corte global de 60 s se retiró de la operación, sin que ello
+modifique por sí solo los criterios de evaluación escritos a continuación.
+
 **Actualización del 25 de noviembre:** TX es una Zero W y RX una Pi 4 B. El equipo confirmó recepción de `HOLA COMU` con `ACK=True` mediante `~/prueba_radio.py`. La [primera interfaz Flask](../integracion/web/README.md) prepara imágenes en TX y muestra el estado de integración en RX; todavía no integra envío de imágenes ni códecs. Los Android se conectarán a la interfaz local de cada Pi y el enlace entre Pi seguirá siendo nRF24. Se conserva abajo el diseño inicial como antecedente.
 
 ## Qué vamos a construir

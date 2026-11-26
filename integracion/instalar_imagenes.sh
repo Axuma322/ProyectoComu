@@ -1,5 +1,7 @@
 #!/bin/bash
 # Aplicar únicamente después de probar el paquete en ProyectoComu-integracion.
+# Instalación del paquete original; no sincroniza Git ni configura los AP.
+# Para mantenimiento conservar también datos externos al checkout y los venv.
 set -euo pipefail
 COMU_ROLE=${1:?Uso: sudo bash instalar_imagenes.sh tx|rx}
 case "$COMU_ROLE" in

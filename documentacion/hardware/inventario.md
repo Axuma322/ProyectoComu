@@ -1,8 +1,16 @@
 # Hardware disponible en el laboratorio
 
-**Actualización del 25 de noviembre:** el equipo confirmó TX Zero W (`comu-tx`, usuario `lobo`) y RX Pi 4 B (`comu-rx`, usuario `lobor`), detección nRF24L01+ y recepción real de `HOLA COMU` con ACK usando su prueba remota. Ambas tienen `~/comu-venv`. Se conserva abajo el registro anterior; el problema de la segunda Zero W ya no describe la plataforma RX actual. Los Android mostrarán las interfaces locales, conservando botones, interruptores y LED. El AP independiente de cada Pi aún no se activa.
+**Actualización del 26 de noviembre:** TX Zero W (`comu-tx`, `lobo`) y RX Pi 4 B
+(`comu-rx`, `lobor`) tienen nRF24L01+ y pyRF24 en `~/comu-venv`. Se integraron
+imágenes con ambos algoritmos y AP abiertos independientes; el equipo reportó
+éxito a unos 25 m. La asignación y validación de controles están en la
+[guía breve](guia_led_botones.md). El problema de la segunda Zero W del registro
+anterior no describe la plataforma RX actual.
 
-El equipo confirmó que los componentes de las fotografías existen en el Laboratorio de Telecomunicaciones de la UCR. Todavía no hemos contado las unidades, verificado sus modelos ni probado su funcionamiento.
+El equipo confirmó que los componentes de las fotografías existen en el
+Laboratorio de Telecomunicaciones de la UCR. No se deducen cantidades o modelos
+de esas fotografías; las confirmaciones posteriores de placas y enlace se
+registran por separado.
 
 Las fotografías se revisaron el 16 de octubre de 2026, pero fueron retiradas del repositorio. Conservamos aquí las observaciones de esa revisión; no hicimos una nueva identificación visual. Las referencias abreviadas corresponden a archivos llamados `WhatsApp Image 2026-10-14 at [hora].jpeg`.
 
@@ -27,7 +35,11 @@ Una ranura no confirma que haya una tarjeta instalada. Tampoco podemos deducir c
 
 La idea es aprovechar las Pi, radios, antenas y cables existentes. Necesitamos comprobar que hay conjuntos compatibles y funcionales para transmisor y receptor antes de buscar reemplazos. La [conexión propuesta](README.md) depende de esa identificación.
 
-Aún debemos localizar almacenamiento, energía autónoma para ambos dispositivos, pantalla para RX, botones, LED, resistencias y desacoplamiento. Son necesidades del montaje, no una lista de compras: primero revisaremos existencias y préstamos. El receptor debe alimentar también su pantalla, salvo que el profesor apruebe otra condición de demostración.
+La implementación usa las microSD de las Raspberry y el navegador del teléfono
+para visualización local. Queda verificar el material para completar controles,
+resistencias y desacoplamiento, y documentar la energía autónoma de ambos equipos.
+Son necesidades del montaje, no una lista de compras: primero revisar existencias
+y préstamos. La prueba de 25 m no documentó autonomía ni valores de alimentación.
 
 El lector microSD externo y los módulos de audio no hacen falta para empezar. CC1101 y óptica siguen como alternativas investigadas, sin adquisición prevista.
 

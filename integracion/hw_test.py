@@ -6,6 +6,10 @@ Uso:  python3 hw_test.py
 - Luego muestra en pantalla el estado del botón y del DIP switch.
 - Al presionar el botón, los tres LED parpadean.
 Ctrl+C para salir.
+
+Prueba de banco: detener comu-enlace antes de ejecutar; no importar este módulo
+desde la web, pues abre GPIO a nivel de módulo. El parpadeo y el seguimiento DIP
+de aquí no son los indicadores de producción de integracion.enlace.Controls.
 """
 from gpiozero import LED, Button
 from time import sleep

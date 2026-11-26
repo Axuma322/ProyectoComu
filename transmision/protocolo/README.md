@@ -1,65 +1,83 @@
-# Envío de datos por paquetes
+# Protocolo implementado de imágenes
 
-**Implementación vigente:** `transmision/archivos.py` implementa tramas de 32 bytes,
-fragmentos de 24 bytes, stop-and-wait, CRC-32 y confirmación final de reconstrucción.
-El documento siguiente conserva el diseño preliminar de ventanas y BLOCK_ACK;
-no se afirma que esa variante esté implementada. Ver [integración y pruebas](../../integracion/IMAGENES.md).
+Código: `transmision/archivos.py` y `transmision/enlace.py`; integración:
+`integracion/enlace.py`. Es **stop-and-wait**, con una trama y su confirmación
+de aplicación en vuelo. Las ventanas y BLOCK_ACK del
+[diseño preliminar](../../documentacion/investigacion/protocolo_preliminar.md)
+no están implementados.
 
-La idea es construir un protocolo sencillo sobre RF24, con un transmisor de archivos y un receptor que permanece escuchando. Todavía no hemos fijado el formato binario ni implementado estas funciones. El radio aportará CRC, ACK y reintentos por paquete; nuestro programa controlará la transferencia completa. [Nordic y RF24](../../documentacion/investigacion/fuentes.md)
+## Trama de 32 bytes
 
-## Recorrido y estados
+Cabecera `struct.Struct('>BBIH')`: enteros sin signo en big-endian.
 
-```mermaid
-flowchart LR
-  A[Archivo en Pi TX] --> B[Codificacion futura]
-  B --> C[Metadatos y fragmentos]
-  C --> D[RF24 y SPI]
-  D --> E[Radio TX]
-  E <-->|GFSK y ACK| F[Radio RX]
-  F --> G[RF24 y SPI]
-  G --> H[Validar y reunir fragmentos]
-  H --> I[Descodificacion futura]
-  I --> J[Guardar y mostrar en Pi RX]
-```
+| Bytes | Campo | Valor |
+|---|---|---|
+| 0 | Identificador de formato | `0xC1` |
+| 1 | Tipo | START=1, DATA=2, FIN=3, ACK=4 |
+| 2–5 | Sesión | Entero aleatorio de 32 bits generado por TX |
+| 6–7 | Índice | Fragmento DATA; cero en START/FIN |
+| 8–31 | Cuerpo | Hasta 24 bytes, rellenados con ceros |
 
-Primero enviaremos archivos sin compresión. La futura codificación entregará un flujo de bytes con su modo, parámetros y tamaños; el protocolo transportará ese flujo sin depender del algoritmo.
-
-TX pasará por **configurar → esperar botón → preparar → negociar → enviar → cerrar**. RX pasará por **configurar → escuchar → validar inicio → recibir → verificar → guardar y mostrar**. Ante fallo o cancelación, se registra el motivo, se descarta el archivo temporal y se vuelve a espera. Un nuevo intento usará otra identificación.
-
-## Mensajes propuestos
-
-| Mensaje | Función |
+| Tipo | Cuerpo |
 |---|---|
-| START / META | Identificar sesión, versión, modo, formato/dimensiones, tamaños, fragmentación y CRC del flujo. Dividir metadatos si no caben en una carga |
-| READY / REJECT | Aceptar o rechazar parámetros desde la aplicación antes de enviar datos |
-| DATA | Llevar identificación de sesión, índice y fragmento |
-| BLOCK_ACK / NACK | Confirmar fragmentos recibidos o indicar cuáles faltan |
-| FIN | Solicitar cierre y comprobación de longitud y CRC completos |
-| RESULT / RESULT_ACK | Confirmar resultado, guardado y despliegue; cerrar la sesión |
-| CANCEL | Detener una transferencia con una razón |
+| START | Longitud total del flujo y CRC-32: dos enteros de 32 bits |
+| DATA | Siguiente bloque de hasta 24 bytes del flujo |
+| FIN | Ceros; solicita validación y publicación final |
+| ACK | Tipo confirmado y estado en los primeros dos bytes; resto cero |
 
-Para los cálculos planteamos una cabecera DATA de 8 bytes: tipo/versión, banderas, sesión de 32 bits e índice de 16 bits. Quedarían 24 bytes de datos en una carga fija de 32. Es una propuesta revisable; falta fijar orden de bytes, límites y serialización. Los metadatos se validarán antes de reservar memoria.
+ACK repite sesión e índice. Estado 0 significa aceptación; 1, rechazo de
+parámetros, fragmento o archivo; 2, receptor ocupado por otra sesión al recibir
+START. TX solo acepta ACK coincidente en tipo, sesión, índice y tipo confirmado.
 
-La comprobación propuesta combina CRC de radio de dos bytes y CRC-32 del flujo completo. Para las pruebas compararemos también SHA-256 y bytes del archivo original frente al recibido. El CRC detecta errores accidentales; no autentica al emisor.
+## Flujo transportado
 
-## Confirmaciones y recuperación
+`integracion.enlace.make_wire` concatena longitud del JSON (4 bytes big-endian),
+metadatos JSON UTF-8 y archivo codificado HUF2 o QPG1. El límite es **256 KiB en
+total** y 4096 bytes de JSON. START describe ese flujo completo, no solo los
+bytes del códec. La longitud permite recortar el relleno del último fragmento.
 
-El acceso será semidúplex por turnos: TX enviará un bloque y cederá el medio a RX para una respuesta de aplicación. Mantendremos auto-ACK de radio por paquete. No suponemos CSMA/CA ni ausencia de interferencias.
+Los metadatos contienen modo, bits, dimensiones, tamaños, hashes, métricas de
+preparación/calidad medidas en TX e identificador de trabajo. Viajan por el
+mismo radio; no existe un canal TCP auxiliar para completarlos.
 
-Proponemos bloques de 16 fragmentos y un mapa de recepción para reenviar los ausentes. Al principio habrá una transacción de radio en vuelo para asociar sus contadores. Un fragmento duplicado se reconoce por sesión e índice y no se agrega dos veces. No mezclaremos sesiones; una petición ajena puede recibir BUSY.
+## Confirmación y errores
 
-Si se pierde READY, repetir START de la misma sesión no debe borrar el progreso. Si se pierde RESULT, TX repetirá FIN y RX devolverá el resultado guardado sin procesar otra vez el archivo. La caché de cierres debe durar más que la ventana de reintentos.
+1. START acepta una sesión si los tamaños son válidos y RX está disponible.
+2. DATA se guarda por índice. Repetirlo no duplica bytes ni progreso; un mismo
+   índice con contenido diferente se rechaza. START repetido no borra lo recibido.
+3. FIN exige todos los fragmentos y CRC-32 correcto. El callback reconstruye,
+   valida SHA-256/dimensiones y guarda imagen e historial.
+4. Solo después se emite el ACK de FIN. Si se pierde, RX conserva el resultado
+   de cierre 90 s y responde a FIN repetido sin reconstruir dos veces.
 
-Los plazos iniciales son 1 s para READY, 0,5 s para respuesta de bloque, hasta tres reintentos de aplicación y 3 s de inactividad RX. Se ajustarán con pruebas. Cada reintento cuenta dentro del presupuesto total de 60 s desde el botón, incluido guardado y despliegue; no basta con limitar cada espera por separado. Los reintentos automáticos del radio se configuran aparte en [nRF24](../../documentacion/investigacion/nrf24.md).
+Se mantienen auto-ACK y CRC hardware de 16 bits. Son distintos del ACK de
+aplicación: un `write()` exitoso no demuestra que RX haya guardado la imagen.
+La limpieza de FIFO/IRQ antes de cada escritura bloqueante evita reutilizar
+una trama o un evento TX_DS antiguos, fallo observado durante la integración.
 
-## Pruebas iniciales
+Cada trama tiene un intento inicial y hasta cuatro repeticiones. La espera
+de respuesta de aplicación es 0,4 s; FIN dispone de 3 s para reconstrucción.
+El hardware usa `set_retries(5, 15)` por escritura. El adaptador vuelve a escucha
+tras enviar; RX espera 3 ms antes de responder para permitir el cambio de TX.
 
-Empezaremos con el ejemplo oficial de ida y vuelta y cargas conocidas. Después enviaremos bloques, provocando pérdidas, duplicados, ACK perdido, cancelación y reinicio. El resultado aceptable será reconstrucción exacta o fallo explícito dentro del plazo, nunca éxito con datos incompletos.
+**No hay plazo global implícito de 60 s.** `send_file` acepta un `deadline`
+monotónico opcional para otros llamadores; el servicio de imágenes no lo pasa.
+RX descarta una sesión tras 10 s de inactividad. Si faltan confirmaciones o RX
+rechaza datos, TX registra fallo explícito. No existe reanudación tras reiniciar,
+CANCEL de aplicación ni recuperación mediante mapas de bloques.
 
-Seguiremos con archivos sin compresión, incluyendo fragmento final parcial y tamaños inválidos. Comprobaremos longitud, bytes y SHA-256 antes de pasar a imágenes. Finalmente probaremos 30 m con línea de vista, receptor sin aviso de inicio y alimentación autónoma, conservando también los intentos fallidos.
+## Contadores y verificación
 
-Por intento registraremos configuración, imagen e identificación de sesión, bytes útiles/control/repetidos, fragmentos faltantes, reintentos hardware y de aplicación, MAX_RT, tiempos y estado final. Hay que leer ARC_CNT antes de otra transacción; PLOS_CNT es limitado y se reinicia al escribir canal, por lo que no sirve como acumulador general.
+TX conserva resultados, incluso fallidos, con fragmentos/bytes confirmados,
+ACK hardware presentes/ausentes, ACK de aplicación, respuestas ajenas, reintentos
+y tiempos de escritura/espera. Reintentos no equivalen a reinicios. El total de
+bytes de aplicación no incluye todo el tráfico físico de auto-ACK.
 
-Usaremos reloj monotónico para intervalos locales. Para botón→pantalla necesitamos una base temporal común, por ejemplo vídeo; restar relojes independientes de las Pi no es válido. Botón→RESULT recibido en TX añade el retorno y puede registrarse como cota superior.
+Huffman exige SHA-256 idéntico al original; con pérdidas exige el hash de la
+reconstrucción calculada en TX. CRC y hashes detectan errores; no autentican al
+emisor. Las tramas rechazadas por CRC no llegan al programa, así que BER físico
+no se deriva de estos contadores.
 
-La cantidad exacta de tráfico RF, incluidos ACK no observados, requiere instrumentación o límites explícitos de estimación. Debemos acordar con el profesor la capa de contabilidad. También preguntaremos cómo reportar BER: las tramas descartadas por CRC no llegan al programa. PER, reintentos y BER residual de cargas entregadas no sustituyen BER físico; cero errores después de CRC no prueba un canal sin errores.
+`transmision/test_imagenes.py` comprueba corrupción, ACK perdidos, duplicados,
+cierres únicos y avance de más de 60 s con reloj virtual. Los
+[informes reales](../../documentacion/README.md) conservan la evidencia de radio.

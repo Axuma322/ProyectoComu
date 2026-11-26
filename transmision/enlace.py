@@ -4,6 +4,11 @@ from .radio import shutdown
 
 
 class RadioEndpoint:
+    """Adaptador síncrono: una escritura en vuelo y escucha tras cada envío.
+
+    El bloqueo exclusivo pertenece al worker. Mantener FIFO/IRQ limpias evita
+    confundir la finalización de una trama antigua con la escritura actual.
+    """
     def __init__(self, config):
         import pyrf24 as rf
         self.radio = rf.RF24(config['ce_pin'], config['csn'], config['spi_speed'])
@@ -26,6 +31,7 @@ class RadioEndpoint:
         self.frames = self.hardware_retries = 0
 
     def send(self, raw):
+        """Devuelve ACK hardware; la confirmación de imagen es otra capa."""
         self.radio.stop_listening(self.address)
         # Solo hay una escritura bloqueante en curso. No reutilizar una trama
         # pendiente ni un TX_DS anterior como resultado de la trama nueva.
@@ -41,6 +47,7 @@ class RadioEndpoint:
         return success
 
     def receive(self, timeout):
+        """Espera local acotada sin bloquear indefinidamente el bucle de estados."""
         end = time.monotonic() + max(0, timeout)
         while time.monotonic() < end:
             if self.radio.available():

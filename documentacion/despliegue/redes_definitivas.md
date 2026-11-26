@@ -38,10 +38,12 @@ Después informó de una transmisión con pérdidas completada en campo y de otr
 sin pérdidas interrumpida cerca del 95 % por el corte global de 60 s. Esto no
 establece una distancia máxima ni una autonomía medida.
 
-Para la revisión posterior ambas Raspberry se devolvieron a **PISO 3**, con los
-perfiles AP conservados y su autoconexión deshabilitada por `recuperar`.
-Para salir de este modo de desarrollo se usa `finalizar` según los comandos
-siguientes; cambiar código y reiniciar servicios no vuelve a activar los AP.
+Durante la revisión posterior ambas Raspberry se devolvieron a **PISO 3**, con
+los perfiles AP conservados y su autoconexión deshabilitada por `recuperar`.
+Terminadas las pruebas de software se solicitó volver al modo permanente mediante
+`finalizar`. El equipo reportó después funcionamiento de ambos modos a unos
+[25 m](../pruebas/2026-11-26-campo-25m/README.md). Cambiar código o reiniciar
+servicios por sí solo no activa un AP deshabilitado.
 
 ## Acceso para desarrollo y recuperación manual
 
@@ -94,4 +96,7 @@ Se ejecutó `finalizar tx` primero y `finalizar rx` después, tras comprobar TX
 desde el teléfono. Ambos comandos terminaron con código 0 y solicitaron el AP
 sin retorno automático. TX quedó comprobada desde el teléfono. Posteriormente
 el equipo realizó pruebas de campo con ambas redes y reportó los resultados
-anteriores. Actualmente se trabaja otra vez en PISO 3.
+anteriores. Tras la actualización que retiró el corte global se entregaron los
+comandos de reactivación permanente; el reporte posterior de campo confirma
+funcionamiento de ambos modos. No se adjuntó un nuevo volcado de NetworkManager
+de esa ronda. Se conserva el procedimiento manual de desarrollo y recuperación.

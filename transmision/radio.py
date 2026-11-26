@@ -58,6 +58,11 @@ def shutdown(radio):
 
 
 def initialize(config):
+    """Inicialización de la prueba mínima de texto, distinta de RadioEndpoint.
+
+    El enlace de imágenes usa transmision/enlace.py y enlace_imagenes.json;
+    compartir validación de argumentos no iguala sus parámetros de radio.
+    """
     try:
         import pyrf24
     except (ImportError, OSError) as exc:

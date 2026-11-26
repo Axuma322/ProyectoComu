@@ -1,11 +1,11 @@
 # Wi-Fi definitivo: AP abiertos independientes
 
-**Estado del 26 de noviembre:** el equipo solicitó dejar activos los AP. Se
-ejecutó `finalizar` en TX y RX con resultado 0, aplicando autoconexión permanente
-y deshabilitando el retorno automático. TX fue comprobada desde el teléfono;
-falta la comprobación final de RX. El [procedimiento de operación y recuperación](../../documentacion/despliegue/redes_definitivas.md)
-describe el acceso actual. Las indicaciones siguientes de permanecer en PISO 3
-corresponden a la fase anterior de preparación.
+**Revisión del 26 de noviembre:** la primera activación permanente terminó con
+resultado 0 en TX y RX. Después se volvió a PISO 3 para actualizar el software y
+se entregaron comandos de reactivación permanente. El equipo reportó luego éxito
+en ambos modos a unos 25 m. El [procedimiento de operación y recuperación](../../documentacion/despliegue/redes_definitivas.md)
+describe el acceso actual; este documento conserva la preparación y el ensayo
+inicial, cuyas instrucciones de permanecer en PISO 3 pertenecen a aquella fase.
 
 Decisión del equipo del 26 de noviembre de 2026. Se abandona la investigación de
 WPA: ambas redes serán abiertas. La prueba real de `Comu-TX-Prueba` permitió
@@ -228,7 +228,7 @@ Tras detener únicamente el servidor web anterior identificado, habilitar
 `comu-web@lobor.service` y comprobar HTTP 200 con `rol=rx` en la red original.
 Después usar los mismos comandos del procedimiento TX cambiando `tx` por `rx`,
 SSID por `Comu-RX`, IP por `192.168.60.1` y usuario SSH por `lobor`.
-La interfaz RX todavía informa recepción de radio no integrada: no es un fallo
+En aquella etapa la interfaz RX informaba recepción de radio no integrada: no era un fallo
 de Wi-Fi ni debe reemplazarse con resultados ficticios.
 
 ## Cierre y verificaciones

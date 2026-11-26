@@ -37,6 +37,7 @@ def property_value(profile, field):
 
 
 def health(role):
+    """Exige HTTP local del rol esperado antes de cortar el Wi-Fi de desarrollo."""
     opener = urllib.request.build_opener(urllib.request.ProxyHandler({}))
     with opener.open('http://127.0.0.1:8080/api/estado', timeout=4) as response:
         if response.status != 200 or json.load(response).get('rol') != role:
@@ -57,6 +58,7 @@ def validate(config, role):
 
 
 def check_ap(config):
+    """Comprueba el perfil abierto probado sin modificarlo ni consultar claves."""
     expected = {'connection.id': f'ProyectoComu-AP-{config["role"].upper()}',
                 '802-11-wireless.ssid': f'Comu-{config["role"].upper()}',
                 '802-11-wireless.mode': 'ap', '802-11-wireless.band': 'bg',
@@ -89,6 +91,12 @@ def boot_evidence(config, directory):
 
 
 def act(action, role, pending_only=False):
+    """Ejecuta una transición explícita con el bloqueo de main ya adquirido.
+
+    activar/reiniciar arman recuperación; validar conserva PISO 3; finalizar
+    reutiliza el certificado y habilita AP permanente sin retorno temporizado.
+    recuperar conserva perfiles y vuelve a la red original, deshabilitando AP.
+    """
     config = json.loads((CONFIG / f'red-{role}.json').read_text())
     validate(config, role)
     directory = STATE / f'red-{role}'

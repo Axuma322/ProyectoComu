@@ -54,6 +54,7 @@ def inspect_image(path):
 
 
 def create_app(role=None, data_dir=None):
+    """Crea web y almacenamiento de una sola Pi; nunca abre radio ni GPIO."""
     role = role or os.environ.get("COMU_ROLE")
     if role not in {"tx", "rx"}:
         raise ValueError("Indica el rol tx o rx; no se elige automáticamente.")
@@ -71,6 +72,7 @@ def create_app(role=None, data_dir=None):
     compression = None
 
     def stored_path(directory, name):
+        # Los nombres de la API no pueden escapar del almacén ni seguir symlinks.
         if not isinstance(name, str) or not name or Path(name).name != name or "\\" in name:
             raise ValueError("Nombre de imagen inválido.")
         path = directory / name
@@ -94,6 +96,7 @@ def create_app(role=None, data_dir=None):
         return result
 
     def received_details(path):
+        # Historial por imagen: no asignar las métricas de la última a toda la galería.
         details = inspect_image(path)
         meta = read_json(root / 'recepciones' / (path.stem + '.json'), {})
         if not meta or meta.get('nombre') != path.name:
@@ -119,6 +122,7 @@ def create_app(role=None, data_dir=None):
         return sorted(result, key=lambda item: (item['guardada_en'], item['nombre']), reverse=True)
 
     def latest_received():
+        # El puntero puede apuntar a una imagen borrada; elegir otra que exista.
         last = read_json(root / 'ultima_recepcion.json', {})
         if last:
             try:
@@ -141,6 +145,7 @@ def create_app(role=None, data_dir=None):
 
     @app.before_request
     def protect_local_changes():
+        # Token de la página actual para POST/DELETE; no es una cuenta de usuario.
         if request.method in {"POST", "DELETE"}:
             if request.method == 'POST' and role != "tx":
                 abort(405, description="El receptor no acepta cargas ni órdenes de transmisión.")
@@ -175,6 +180,8 @@ def create_app(role=None, data_dir=None):
 
     @app.get("/api/estado")
     def status():
+        # HTTP accesible y radio disponible son observaciones distintas. El estado
+        # RF procede de enlace.json; una recepción previa sigue visible sin worker.
         with lock:
             state = worker_state(root)
             last = latest_received() if role == 'rx' else None
@@ -208,6 +215,7 @@ def create_app(role=None, data_dir=None):
                 abort(409, description='Espera a que termine la compresión local antes de borrar imágenes.')
             try:
                 descriptor = os.open(root / 'ocupado', os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o600)
+                # El mismo bloqueo que enqueue impide borrar una fuente que TX usa.
             except FileExistsError:
                 abort(409, description='Espera a que termine la transmisión antes de borrar imágenes.')
             try:
@@ -304,6 +312,7 @@ def create_app(role=None, data_dir=None):
 
     @app.post("/api/transmitir")
     def transmit():
+        """Acepta un trabajo local; el 202 todavía no acredita recepción en RX."""
         saved = selection()
         if not saved:
             abort(400, description='Primero guarda la imagen y los parámetros de codificación.')
@@ -317,6 +326,8 @@ def create_app(role=None, data_dir=None):
 
     @app.post('/api/codificar')
     def compress_local():
+        # Un hilo mantiene HTTP disponible durante Huffman. Esta prueba escribe
+        # derivados locales y no toca la cola ni el radio.
         nonlocal compression
         selected = selection()
         if not selected:

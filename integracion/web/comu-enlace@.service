@@ -1,4 +1,5 @@
 # Instancias: lobo (TX) y lobor (RX). Revisar rutas antes de instalar.
+# Sin --gpio hasta validar cableado. Activación mediante gpio.conf: ver operacion.md.
 [Unit]
 Description=Proceso nRF24 ProyectoComu (%i)
 After=network.target

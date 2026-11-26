@@ -1,4 +1,9 @@
-"""Proceso dueño del nRF24 y, opcionalmente, los controles físicos. Sin TCP entre Pi."""
+"""Proceso dueño del nRF24 y, opcionalmente, los controles físicos.
+
+TX consume trabajos locales producidos por Flask o el botón. RX reconstruye y
+guarda antes de confirmar FIN. Ambas mitades comparten solo el protocolo nRF24;
+la documentación del recorrido está en documentacion/arquitectura_software.md.
+"""
 import fcntl
 import hashlib
 import importlib
@@ -21,6 +26,7 @@ from integracion.web.trabajos import write_json, read_json, enqueue
 
 
 def make_wire(data, metadata):
+    """Serializa longitud big-endian, JSON y binario dentro del límite de radio."""
     encoded_meta = json.dumps(metadata, allow_nan=False).encode()
     if len(encoded_meta) > 4096 or len(data) + len(encoded_meta) + 4 > MAX_WIRE:
         raise ValueError('El archivo codificado excede el límite del enlace')
@@ -28,6 +34,11 @@ def make_wire(data, metadata):
 
 
 def reconstruct(wire, root, session, elapsed):
+    """Valida y publica una recepción real; un fallo impide confirmar éxito.
+
+    elapsed es el intervalo local de recepción antes de este callback. El tiempo
+    de reconstrucción/guardado se registra aparte, sin restar relojes de las Pi.
+    """
     if len(wire) < 4:
         raise ValueError('Metadatos incompletos')
     length = struct.unpack_from('>I', wire)[0]
@@ -72,6 +83,11 @@ def reconstruct(wire, root, session, elapsed):
 
 
 class Controls:
+    """GPIO opcionales, todos en BCM; pinout en la guía de LED, botón y DIP.
+
+    RX solo crea LED. Su estado todavía no publica modo, por lo que el LED azul
+    no indica el códec recibido. Habilitar --gpio exige comprobar el montaje.
+    """
     def __init__(self, role):
         from gpiozero import LED, Button
         self.activity, self.mode, self.finished = LED(23), LED(24), LED(25)
@@ -79,11 +95,14 @@ class Controls:
         self.dips = [Button(p, pull_up=True) for p in (27, 5, 6, 13)] if role == 'tx' else []
 
     def options(self):
+        """Lee DIP al pulsar: automático prima; DIP2/3 eligen 2, 4, 6 o 7 bits."""
         d = [int(x.is_pressed) for x in self.dips]
         return dict(modo='automatico' if d[3] else ('con_perdidas' if d[0] else 'sin_perdidas'),
                     bits=(2, 4, 6, 7)[d[1] * 2 + d[2]])
 
     def show(self, state, mode=None):
+        # Rojo comparte fin y error; azul conserva el último modo comunicado.
+        # Son estados sostenidos, distintos de los parpadeos de hw_test.py.
         self.activity.value = state in {'codificando', 'enviando', 'recibiendo'}
         if mode:
             self.mode.value = mode == 'con_perdidas'
@@ -96,6 +115,7 @@ class Controls:
 
 
 def attach_radio_packages():
+    """Reutiliza pyRF24 del venv existente sin instalar ni sustituir paquetes."""
     if importlib.util.find_spec('pyrf24'):
         return
     interpreter = Path.home() / 'comu-venv/bin/python'
@@ -124,6 +144,8 @@ def main():
         print(json.dumps(dict(rol=args.role, configuracion=config, numpy=numpy.__version__)))
         return
     lock_path = Path(tempfile.gettempdir()) / f'proyectocomu-radio-spi0-{config["csn"]}.lock'
+    # Un propietario por SPI/CSN. Las pruebas antiguas no comparten este bloqueo,
+    # por eso también se revisan sus comandos antes de abrir el hardware.
     lock_fd = os.open(lock_path, os.O_CREAT | os.O_RDWR | os.O_NOFOLLOW, 0o600)
     lock = os.fdopen(lock_fd, 'a')
     fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
@@ -148,6 +170,7 @@ def main():
     heartbeat_thread = None
 
     def publish(phase=None, **values):
+        """Publica estado atómico; RLock coordina worker y hilo de heartbeat."""
         nonlocal last_write
         with state_lock:
             if phase:
@@ -170,6 +193,7 @@ def main():
                     progreso=round(done * 100 / total, 1), error=error)
 
     def completed(wire, session, elapsed):
+        # Receiver envía el ACK de FIN solo cuando este callback regresa bien.
         result = reconstruct(wire, root, session, elapsed)
         publish('completado', progreso=100, sesion=result['sesion'], error=None)
 
@@ -185,6 +209,8 @@ def main():
             (root / 'ocupado').unlink(missing_ok=True)
             if controls:
                 def press():
+                    # Imagen de la selección web; opciones DIP solo para este
+                    # trabajo. No sobrescribir preferencias guardadas del teléfono.
                     selected = read_json(root / 'seleccion.json')
                     if selected:
                         try:
@@ -228,6 +254,8 @@ def main():
                         publish('enviando', modo=meta['modo'], metricas=meta)
                         result = send_file(endpoint, make_wire(data, meta), progress,
                                            diagnostics=diagnostics)
+                        # Se mide el tiempo total sin imponer el antiguo corte
+                        # global. Los plazos por trama siguen dentro de send_file.
                         result.update(meta, total_tx_ms=(time.monotonic() - started) * 1000,
                                       reintentos_hardware=endpoint.hardware_retries - counters[1],
                                       diagnostico=dict(diagnostics))
@@ -243,6 +271,8 @@ def main():
                             write_json(root / 'resultados' / (job['id'] + '.json'), result)
                             print(json.dumps(dict(evento='envio_fallido', **result)), flush=True)
                     finally:
+                        # Liberar la cola también ante fallo; el diagnóstico ya
+                        # queda guardado y repetir requiere una nueva solicitud.
                         jobfile.unlink(missing_ok=True)
                         (root / 'ocupado').unlink(missing_ok=True)
                 time.sleep(0.02)

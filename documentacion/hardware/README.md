@@ -1,8 +1,14 @@
-# Conexión de la Pi Zero y el radio
+# Conexiones de hardware
 
-**Actualización del 25 de noviembre:** TX es una Zero W y RX una Pi 4 B. Se utilizará Android como interfaz web local de cada equipo; no se seleccionará ahora una pantalla HDMI. La [web Flask](../../integracion/web/README.md) no modifica radio ni GPIO: se conservan botón, DIP y LED del montaje. GPIO24 ya está asignado al LED azul, por lo que IRQ de radio permanece desconectada. Los apartados siguientes conservan la propuesta y el registro del montaje anterior.
+**Estado al 26 de noviembre:** TX es una Zero W y RX una Pi 4 B. Cada teléfono
+abre la web local mediante AP independiente. El equipo reportó imágenes en
+ambos modos a unos 25 m. Los controles de las placas actuales se comprueban
+con la [guía breve de LED, botón y DIP](guia_led_botones.md). La web no abre
+GPIO; los controla el worker únicamente con `--gpio`.
 
-Usaremos los componentes del laboratorio antes de proponer compras. El [inventario](inventario.md) reúne lo observado y las comprobaciones pendientes; aquí dejamos la conexión inicial.
+Se aprovechan los componentes del laboratorio antes de proponer compras. El
+[inventario](inventario.md) reúne lo observado y las comprobaciones pendientes;
+las conexiones siguientes documentan señales y el montaje histórico.
 
 ## SPI y señales de control
 
@@ -17,7 +23,7 @@ Este pinout sigue el ejemplo de [RF24 para Raspberry Pi](https://nrf24.github.io
 | SCK | GPIO11 | 23 |
 | MOSI | GPIO10 | 19 |
 | MISO | GPIO9 | 21 |
-| IRQ, opcional | GPIO24 | 18 |
+| IRQ | Sin conectar: GPIO24 está reservado al LED azul | — |
 
 CE controla el modo del radio; CSN selecciona el dispositivo SPI. El rótulo CE0 de la Pi corresponde a CSN en esta conexión.
 
@@ -27,15 +33,24 @@ Usaremos cables cortos y desacoplamiento junto al módulo. Como punto de partida
 
 ## Controles, almacenamiento y alimentación
 
-Podemos reservar GPIO17 para inicio, GPIO27 para seleccionar modo en TX y GPIO23 para el LED, si la pantalla no utiliza esas señales. El botón necesita polarización y antirrebote; el LED, resistencia adecuada. El receptor se arma una vez y permanece escuchando, sin pulsación sincronizada con el transmisor.
+GPIO17 es inicio TX; GPIO27/5/6/13, DIP TX; GPIO23/24/25, LED de ambos equipos.
+La [guía de controles](guia_led_botones.md) da pines físicos, resistencias,
+pull-up y antirrebote. RX escucha sin pulsación sincronizada con TX.
 
-La microSD de la Pi puede almacenar imágenes y registros; no necesitamos añadir un lector externo para empezar. La pantalla será un periférico de la misma Pi, sin incorporar otro módulo programable.
+La microSD de cada Pi almacena imágenes y registros; no hace falta un lector
+externo. La interfaz adoptada se visualiza en el navegador del teléfono.
 
-Todavía debemos seleccionar batería y pantalla. Mediremos el consumo completo, incluida la recepción continua y el despliegue. Para estimar autonomía usaremos energía de batería en Wh × eficiencia / potencia media en W, y comprobaremos picos, caída de tensión y posible autoapagado del banco USB. También debemos prever apagado seguro para no corromper la microSD.
+Falta documentar consumo y autonomía del conjunto, incluida recepción continua.
+Las pruebas de software registraron baja tensión intermitente en RX; ver
+[informe](../pruebas/2026-11-26-sin-limite/README.md#observación-de-alimentación).
+Conservar alimentación estable, medir picos/caída de tensión y comprobar el
+autoapagado del banco USB. Prever apagado seguro para la microSD.
 
 ## Montaje del transmisor (24 de noviembre)
 
-Ya se armó la primera versión del transmisor en `dinamita`. Los controles quedaron un poco distintos a lo planteado arriba: el LED de GPIO23 pasó a ser uno de tres, y GPIO24 se usa para un LED porque IRQ no se conectó. La asignación completa está en [integración](../../integracion/README.md).
+Se armó la primera versión del transmisor en `dinamita`. GPIO23 pasó a ser uno
+de tres LED y GPIO24 se usó para el azul porque IRQ no se conectó. La asignación
+completa vigente está en la [guía de controles](guia_led_botones.md).
 
 El radio se conectó con cables hembra-hembra directo al conector del módulo, sin pasar por la protoboard: el conector de 2×4 quedaría en corto por pares si se inserta. Se usó la misma tabla de arriba con dos cambios menores: GND en el pin 20 en vez del 25, solo por comodidad del cableado, y VCC en el pin 1. Hay que tener cuidado porque el pin 1 queda junto a los pines 2 y 4, que son de 5 V.
 

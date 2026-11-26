@@ -1,5 +1,12 @@
 # Integración de algoritmos, interfaz y nRF24
 
+**Estado al 26 de noviembre:** imágenes integradas, corte global retirado y
+reporte satisfactorio de ambos modos a unos 25 m. Para el uso actual consultar
+[operación](../documentacion/operacion.md), para mantener el código el
+[mapa de módulos](../documentacion/arquitectura_software.md) y para completar
+el montaje la [guía breve de controles](../documentacion/hardware/guia_led_botones.md).
+Las rondas de prueba posteriores en este documento conservan sus condiciones históricas.
+
 La web y el proceso de enlace son independientes. Ambos usan el almacenamiento
 local `~/.local/share/proyectocomu-web`. Flask nunca abre SPI. `integracion.enlace`
 es el único dueño del radio y recibe solicitudes por archivos locales atómicos,
@@ -135,6 +142,11 @@ las pruebas mínimas ni dos procesos de enlace sobre el mismo radio. El enlace
 usa un bloqueo y rechaza iniciar cuando detecta la prueba anterior en ejecución.
 
 ## Controles físicos
+
+La [guía de LED, botón y DIP](../documentacion/hardware/guia_led_botones.md)
+incluye pines físicos, tablas y prueba de banco. Describe las limitaciones
+actuales: rojo comparte fin/error y azul RX no recibe todavía el modo en su
+estado de GPIO. No se consideran validados por los ensayos de imágenes.
 
 `--gpio` habilita LED verde BCM23 (actividad), azul BCM24 (modo con pérdidas),
 rojo BCM25 (fin/error), botón BCM17 y DIP BCM27/5/6/13 en TX. El botón usa la

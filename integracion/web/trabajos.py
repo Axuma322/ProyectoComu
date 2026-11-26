@@ -8,6 +8,7 @@ from uuid import uuid4
 
 
 def write_json(path, value):
+    """Publica JSON completo en el mismo filesystem; nunca media escritura."""
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
     fd, name = tempfile.mkstemp(dir=path.parent)
@@ -29,6 +30,7 @@ def read_json(path, default=None):
 
 
 def worker_state(root):
+    """Infiere disponibilidad local por heartbeat, no por conectividad con RX."""
     state = read_json(Path(root) / 'enlace.json', {})
     state['disponible'] = (time.time() - state.get('heartbeat', 0) < 5 and
                            state.get('estado') not in {'detenido', 'error_radio', 'iniciando_radio'})
@@ -38,6 +40,11 @@ def worker_state(root):
 
 
 def enqueue(root, selection):
+    """Congela una selección por trabajo y arbitra entre botón, web y borrado.
+
+    ocupado se crea de forma exclusiva antes de publicar el JSON; se libera en
+    el worker al terminar o en el arranque tras marcar trabajos interrumpidos.
+    """
     root = Path(root)
     state = worker_state(root)
     if not state['disponible'] or state.get('estado') == 'error_radio':

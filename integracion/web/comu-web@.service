@@ -1,5 +1,5 @@
-# Plantilla preparada; no instalar ni habilitar sin revisar rutas y servicio actual.
-# Instancias: comu-web@lobo (TX), comu-web@lobor (RX, más adelante).
+# Plantilla instalada en las placas; revisar rutas antes de reutilizarla en otra.
+# Instancias: comu-web@lobo (TX), comu-web@lobor (RX). Independiente de SSH y radio.
 [Unit]
 Description=Interfaz web local ProyectoComu (%i)
 After=network.target

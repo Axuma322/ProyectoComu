@@ -1,10 +1,26 @@
-# Prueba mínima con Python y pyRF24
+# Transmisión: enlace actual y prueba mínima
+
+La operación de imágenes usa `integracion.enlace`, `transmision/archivos.py`,
+`transmision/enlace.py`, `transmision/codecs.py` y `enlace_imagenes.json`.
+Configuración probada: CE BCM22, CSN0, SPI 1 MHz, canal 76, 250 kbit/s,
+dirección `COMU1`, potencia MIN y confirmación final de aplicación.
+Ver [arquitectura](../documentacion/arquitectura_software.md),
+[protocolo](protocolo/README.md) e [integración](../integracion/IMAGENES.md).
+
+El equipo confirmó imágenes en ambos modos a unos 25 m. El
+[reporte de campo](../documentacion/pruebas/2026-11-26-campo-25m/README.md)
+no sustituye una medición documentada a 30 m. Los apartados siguientes describen
+la **prueba mínima de texto y su instalación inicial**, con otros parámetros.
+No ejecutarla simultáneamente con el worker de imágenes ni copiar su
+`config.json` sobre `enlace_imagenes.json`.
+
+## Antecedente: prueba mínima con Python y pyRF24
 
 **Actualización del 25 de noviembre:** el equipo confirmó TX Zero W (`lobo@comu-tx.local`) y RX Pi 4 B (`lobor@comu-rx.local`), ambas con pyRF24 en `~/comu-venv`. Con `~/prueba_radio.py` recibieron `HOLA COMU` y obtuvieron `ACK=True`. Ese script remoto no está en el repositorio: no se reemplazó ni se supone que usa exactamente `config.json`. Las instrucciones siguientes describen la prueba mínima del repositorio y el montaje anterior. Para la web, consultar [Flask local](../integracion/web/README.md), que usa un entorno separado y no toca la prueba de radio.
 
-Kit K3 confirmado: dos Raspberry Pi Zero W, dos radios nRF24 con antenas
-externas, dos protoboards y cables. **Todavía no se ha probado este código en
-hardware.** Esta iteración solo inicializa los radios y envía texto corto.
+En la etapa inicial se registró el kit K3 con dos Zero W, dos radios con antenas,
+dos protoboards y cables. El RX actual es una Pi 4 B.
+Esta iteración de texto solo inicializa los radios y envía mensajes cortos.
 No implementa imágenes, compresión, archivos ni el protocolo propuesto.
 
 ## Antes de conectar

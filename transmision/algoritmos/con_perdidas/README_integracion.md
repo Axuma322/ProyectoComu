@@ -1,5 +1,12 @@
 # Guía de Integración en Raspberry Pi Zero (Receptor nRF24L01)
 
+**Referencia del módulo aportada por el equipo.** El receptor vigente es una
+Pi 4 B y la integración ya está implementada en `integracion/enlace.py` y
+`transmision/codecs.py`. Ver [arquitectura actual](../../../documentacion/arquitectura_software.md).
+Los ejemplos siguientes son independientes del servicio de producción; no se
+ejecutan en paralelo con él. La integración actual usa lectura estricta y MSE/PSNR
+calculados en TX; no presenta el BER de una comparación de archivos como BER físico.
+
 Esta guía resume cómo integrar los módulos de **decodificación (`decodificador.py`)** y **evaluación (`metricas.py`)** en la **Raspberry Pi Zero** receptora con el enlace **nRF24L01 (`pyRF24`)**.
 
 ---
