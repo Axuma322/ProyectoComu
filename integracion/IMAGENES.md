@@ -22,7 +22,7 @@ compartidos entre Raspberry: el archivo y los metadatos cruzan exclusivamente nR
   **estricta**: no se rellenan archivos incompletos con píxeles inventados.
 - Automático: compara Huffman y las siete profundidades de cuantización; elige
   el archivo menor entre los que preservan al menos 25 dB de PSNR o son exactos.
-  El tiempo de selección automática cuenta dentro del plazo de preparación/envío.
+  El tiempo de selección automática se incluye en el tiempo total medido de TX.
 
 La entrada continúa limitada a BMP/PGM gris de hasta 320×240 y 2 MiB. No se
 reescala ni se convierte una foto en color de forma silenciosa.
@@ -72,11 +72,27 @@ el cierre almacenado sin reconstruir otra vez. Se verifica longitud y CRC-32 de
 todo el flujo, y después los hashes de reconstrucción. Un ACK hardware no
 representa éxito de imagen: RX confirma FIN después de reconstruir y guardar.
 
-El límite del flujo es 256 KiB. El plazo TX es de 60 s desde el comienzo de la
-preparación; hasta cuatro repeticiones por trama. RX descarta una sesión
+El límite del flujo es 256 KiB. Esta versión no impone un plazo global de
+60 s: una transferencia que sigue avanzando puede terminar después. El tiempo
+total se sigue midiendo. Cada trama conserva hasta cuatro repeticiones y una
+espera de confirmación de 0,4 s (3 s para el cierre). Los llamadores de
+`send_file` pueden solicitar explícitamente un `deadline`, pero el servicio
+de imágenes no lo establece. RX descarta una sesión
 incompleta tras 10 s de inactividad y guarda los cierres 90 s. Un reinicio puede
 interrumpir la transferencia y producir un error explícito; no se promete
 reanudar automáticamente una transferencia después de reiniciar el proceso.
+
+La decodificación Huffman resuelve los códigos de hasta 8 bits mediante una
+tabla de 256 entradas y recorre el árbol para los códigos más largos. Conserva
+HUF2 y los formatos anteriores, la longitud exacta y la validación del relleno.
+RX cuenta incrementalmente los bytes únicos recibidos, sin volver a sumar
+todos los fragmentos tras cada paquete. Las pruebas de regresión incluyen una
+transferencia de más de 60 s de reloj virtual, códigos de 255 bits y ACK perdidos.
+Los tiempos de las rondas históricas siguientes corresponden a la versión anterior.
+
+La [revisión posterior a las pruebas de campo](../documentacion/pruebas/2026-11-26-sin-limite/README.md)
+documenta la retirada del corte global, las medidas de preparación antes/después
+y la diferencia entre una recepción confirmada y un ensayo con reloj virtual.
 
 El resultado de TX conserva también los intentos fallidos en `resultados/<trabajo>.json`.
 Su campo `diagnostico` cuenta ACK hardware recibidos/ausentes, ACK de aplicación,

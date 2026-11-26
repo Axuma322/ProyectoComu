@@ -226,7 +226,7 @@ def main():
                         data, meta = encode(image_path, job['modo'], job.get('bits', 4))
                         meta['trabajo'] = job['id']
                         publish('enviando', modo=meta['modo'], metricas=meta)
-                        result = send_file(endpoint, make_wire(data, meta), progress, started + 60,
+                        result = send_file(endpoint, make_wire(data, meta), progress,
                                            diagnostics=diagnostics)
                         result.update(meta, total_tx_ms=(time.monotonic() - started) * 1000,
                                       reintentos_hardware=endpoint.hardware_retries - counters[1],

@@ -34,8 +34,14 @@ que ya se habían validado en ambas placas; no exige repetir aquel ensayo de
 cinco minutos. Esta activación no reinicia las Raspberry.
 
 El equipo ya completó las [seis pruebas de imágenes en PISO 3](../pruebas/2026-11-26-tres-imagenes/README.md).
-La transmisión con ambos AP simultáneamente activos, las power banks y el
-alcance se comprobarán como pasos posteriores.
+Después informó de una transmisión con pérdidas completada en campo y de otra
+sin pérdidas interrumpida cerca del 95 % por el corte global de 60 s. Esto no
+establece una distancia máxima ni una autonomía medida.
+
+Para la revisión posterior ambas Raspberry se devolvieron a **PISO 3**, con los
+perfiles AP conservados y su autoconexión deshabilitada por `recuperar`.
+Para salir de este modo de desarrollo se usa `finalizar` según los comandos
+siguientes; cambiar código y reiniciar servicios no vuelve a activar los AP.
 
 ## Acceso para desarrollo y recuperación manual
 
@@ -86,5 +92,6 @@ por SHA-256 con `integracion/web/red_local.py`.
 
 Se ejecutó `finalizar tx` primero y `finalizar rx` después, tras comprobar TX
 desde el teléfono. Ambos comandos terminaron con código 0 y solicitaron el AP
-sin retorno automático. TX quedó comprobada desde el teléfono; la comprobación
-final de RX está en curso.
+sin retorno automático. TX quedó comprobada desde el teléfono. Posteriormente
+el equipo realizó pruebas de campo con ambas redes y reportó los resultados
+anteriores. Actualmente se trabaja otra vez en PISO 3.

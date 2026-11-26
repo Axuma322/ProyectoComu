@@ -1,0 +1,62 @@
+[
+  {
+    "fecha_unix": 1795702627.7579618,
+    "registro": "throttled=0x50005",
+    "baja_tension_activa": true,
+    "limitacion_activa": true
+  },
+  {
+    "fecha_unix": 1795702629.7628336,
+    "registro": "throttled=0x50005",
+    "baja_tension_activa": true,
+    "limitacion_activa": true
+  },
+  {
+    "fecha_unix": 1795702631.7651734,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "fecha_unix": 1795702633.769252,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "fecha_unix": 1795702635.7733305,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "fecha_unix": 1795702637.777403,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "fecha_unix": 1795702639.7814522,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "fecha_unix": 1795702641.7855482,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "fecha_unix": 1795702643.7896402,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  },
+  {
+    "fecha_unix": 1795702645.7936769,
+    "registro": "throttled=0x50000",
+    "baja_tension_activa": false,
+    "limitacion_activa": false
+  }
+]

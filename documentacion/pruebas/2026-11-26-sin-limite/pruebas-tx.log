@@ -1,0 +1,32 @@
+test_actual_team_samples_lossless_byte_exact (transmision.test_imagenes.CodecTests.test_actual_team_samples_lossless_byte_exact) ... ok
+test_all_depths_partial_bytes_and_automatic_quality (transmision.test_imagenes.CodecTests.test_all_depths_partial_bytes_and_automatic_quality) ... ok
+test_huffman_all_symbols_single_symbol_and_padding (transmision.test_imagenes.CodecTests.test_huffman_all_symbols_single_symbol_and_padding) ... ok
+test_huffman_long_codes_invalid_prefix_and_padding (transmision.test_imagenes.CodecTests.test_huffman_long_codes_invalid_prefix_and_padding) ... ok
+test_lossy_golden_bitstream_and_small_bmp_roundtrip (transmision.test_imagenes.CodecTests.test_lossy_golden_bitstream_and_small_bmp_roundtrip) ... ok
+test_wire_reconstruct_validates_hash_and_publishes_real_image (transmision.test_imagenes.CodecTests.test_wire_reconstruct_validates_hash_and_publishes_real_image) ... ok
+test_crc_failure_never_reports_success_or_publishes (transmision.test_imagenes.TransportTests.test_crc_failure_never_reports_success_or_publishes) ... ok
+test_endpoint_sends_current_frame_despite_old_fifo_and_completion_flag (transmision.test_imagenes.TransportTests.test_endpoint_sends_current_frame_despite_old_fifo_and_completion_flag) ... ok
+test_lost_ack_at_each_phase_preserves_binary_and_exactly_once_finish (transmision.test_imagenes.TransportTests.test_lost_ack_at_each_phase_preserves_binary_and_exactly_once_finish) ... ok
+test_timeout_and_oversized_start_are_bounded (transmision.test_imagenes.TransportTests.test_timeout_and_oversized_start_are_bounded) ... ok
+test_transfer_over_60_seconds_has_no_implicit_deadline (transmision.test_imagenes.TransportTests.test_transfer_over_60_seconds_has_no_implicit_deadline) ... ok
+test_accept_pgm_and_existing_files (integracion.web.test_web.WebTests.test_accept_pgm_and_existing_files) ... ok
+test_corrupt_saved_selection_is_not_reported_as_valid (integracion.web.test_web.WebTests.test_corrupt_saved_selection_is_not_reported_as_valid) ... ok
+test_delete_is_protected_and_cannot_remove_inflight_or_external_image (integracion.web.test_web.WebTests.test_delete_is_protected_and_cannot_remove_inflight_or_external_image) ... ok
+test_delete_tx_clears_selection_and_derived_files_but_keeps_other_images (integracion.web.test_web.WebTests.test_delete_tx_clears_selection_and_derived_files_but_keeps_other_images) ... ok
+test_invalid_selection_does_not_overwrite_saved_data (integracion.web.test_web.WebTests.test_invalid_selection_does_not_overwrite_saved_data) ... ok
+test_local_codec_from_http_preserves_original_and_publishes_preview (integracion.web.test_web.WebTests.test_local_codec_from_http_preserves_original_and_publishes_preview) ... ok
+test_mutations_require_page_token_and_names_are_not_client_paths (integracion.web.test_web.WebTests.test_mutations_require_page_token_and_names_are_not_client_paths) ... ok
+test_quality_validation_and_real_worker_queue (integracion.web.test_web.WebTests.test_quality_validation_and_real_worker_queue) ... ok
+test_reject_invalid_color_dimensions_format_and_truncated_file (integracion.web.test_web.WebTests.test_reject_invalid_color_dimensions_format_and_truncated_file) ... ok
+test_request_size_limit (integracion.web.test_web.WebTests.test_request_size_limit) ... ok
+test_role_required (integracion.web.test_web.WebTests.test_role_required) ... ok
+test_rx_gallery_lists_legacy_image_without_inventing_metrics (integracion.web.test_web.WebTests.test_rx_gallery_lists_legacy_image_without_inventing_metrics) ... ok
+test_rx_gallery_preserves_per_image_metrics_and_deletes_latest_then_all (integracion.web.test_web.WebTests.test_rx_gallery_preserves_per_image_metrics_and_deletes_latest_then_all) ... ok
+test_rx_has_no_upload_no_fake_image_no_metrics (integracion.web.test_web.WebTests.test_rx_has_no_upload_no_fake_image_no_metrics) ... ok
+test_tx_empty_and_transmission_explicitly_unavailable (integracion.web.test_web.WebTests.test_tx_empty_and_transmission_explicitly_unavailable) ... ok
+test_upload_original_preview_and_persistent_selection (integracion.web.test_web.WebTests.test_upload_original_preview_and_persistent_selection) ... ok
+
+----------------------------------------------------------------------
+Ran 27 tests in 31.387s
+
+OK

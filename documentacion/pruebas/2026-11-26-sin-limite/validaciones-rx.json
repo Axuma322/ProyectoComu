@@ -1,0 +1,76 @@
+[
+  {
+    "trabajo": "42a9e0237bed407ca8e2ea5a1f09b5b2",
+    "validacion_rx": true,
+    "sha256_archivo_rx": "03fcdf4871f5375db91bb36ad8730eb8da2e5f77d65ede65d37805d43e1ee067",
+    "vista_http_verificada": true,
+    "sha256_vista_png": "192361c7585b149e92cbdc1fba41149cd89eceebfb2b79bfd706cd0ba66204f2",
+    "recepcion": {
+      "nombre": "51e2e049.bmp",
+      "ancho": 320,
+      "alto": 240,
+      "sesion": "51e2e049",
+      "metricas": {
+        "modo": "sin_perdidas",
+        "bits": null,
+        "nombre": "84e1ecff83f44904bbf2d00cf84af428_01_fotografia_retrato.bmp",
+        "ancho": 320,
+        "alto": 240,
+        "bytes_original": 77878,
+        "bytes_comprimidos": 67670,
+        "sha256_original": "03fcdf4871f5375db91bb36ad8730eb8da2e5f77d65ede65d37805d43e1ee067",
+        "sha256_reconstruida": "03fcdf4871f5375db91bb36ad8730eb8da2e5f77d65ede65d37805d43e1ee067",
+        "compresion_ms": 788.7946250000084,
+        "preparacion_tx_ms": 3330.1653050000086,
+        "razon_compresion": 1.1508497118368552,
+        "mse_tx": 0.0,
+        "psnr_tx_db": null,
+        "trabajo": "42a9e0237bed407ca8e2ea5a1f09b5b2",
+        "descompresion_ms": 267.11211299999604,
+        "recepcion_ms": 38095.825996,
+        "bytes_utiles_recibidos": 67670,
+        "tasa_util_rx_bps": 14210.480698248724,
+        "sha256_verificado": true,
+        "ber": null,
+        "origen_calidad": "calculada_en_TX"
+      }
+    }
+  },
+  {
+    "trabajo": "1024bf3dbd0e4baa84665b6b206d6e31",
+    "validacion_rx": true,
+    "sha256_archivo_rx": "6603b11c704d7c835ffe8b2a1ab0001b228ddd5bf78e15e446730669c1fc569e",
+    "vista_http_verificada": true,
+    "sha256_vista_png": "c6b6f09edfc471a7e0c730a55fec779a248b7ac240615b32df4d9e36289d80e8",
+    "recepcion": {
+      "nombre": "d3f4d8c6.pgm",
+      "ancho": 320,
+      "alto": 240,
+      "sesion": "d3f4d8c6",
+      "metricas": {
+        "modo": "con_perdidas",
+        "bits": 5,
+        "nombre": "84e1ecff83f44904bbf2d00cf84af428_01_fotografia_retrato.bmp",
+        "ancho": 320,
+        "alto": 240,
+        "bytes_original": 77878,
+        "bytes_comprimidos": 48009,
+        "sha256_original": "03fcdf4871f5375db91bb36ad8730eb8da2e5f77d65ede65d37805d43e1ee067",
+        "sha256_reconstruida": "6603b11c704d7c835ffe8b2a1ab0001b228ddd5bf78e15e446730669c1fc569e",
+        "compresion_ms": 78.14298300002065,
+        "preparacion_tx_ms": 197.41806299998643,
+        "razon_compresion": 1.6221541794246912,
+        "mse_tx": 4.919583333333334,
+        "psnr_tx_db": 41.21152039339776,
+        "trabajo": "1024bf3dbd0e4baa84665b6b206d6e31",
+        "descompresion_ms": 28.351489999977275,
+        "recepcion_ms": 26289.903259000028,
+        "bytes_utiles_recibidos": 48009,
+        "tasa_util_rx_bps": 14609.106629881479,
+        "sha256_verificado": true,
+        "ber": null,
+        "origen_calidad": "calculada_en_TX"
+      }
+    }
+  }
+]

@@ -1,0 +1,82 @@
+[
+  {
+    "archivo": "02_areas_uniformes.bmp",
+    "sha256_original": "d86143bde017996ff46666e0f8ba9bace1942ae28f55eb2a0d84d58c38e072d4",
+    "alimentacion_antes": "throttled=0x0",
+    "antes": {
+      "segundos": 7.352681980999932,
+      "preparacion_ms": 7333.6809959998845,
+      "compresion_ms": 1033.8911629999075,
+      "bytes_codificados": 72902,
+      "sha256_codificada": "3993335cd8d3fc43b41ce1f6241d558f0b4c592b2c8e5ad54aeab040e02af5f8"
+    },
+    "despues": {
+      "segundos": 3.836163800999884,
+      "preparacion_ms": 3817.751817000044,
+      "compresion_ms": 919.3782370000463,
+      "bytes_codificados": 72902,
+      "sha256_codificada": "3993335cd8d3fc43b41ce1f6241d558f0b4c592b2c8e5ad54aeab040e02af5f8"
+    },
+    "mejora_porcentaje": 47.82633315417536
+  },
+  {
+    "archivo": "03_detalle_fino.bmp",
+    "sha256_original": "8370cfa4b1b7e5f425bba3b3e2e997a04c2e370b6b6d9c57a2ac6e2849dca00d",
+    "alimentacion_antes": "throttled=0x0",
+    "antes": {
+      "segundos": 7.169417921000104,
+      "preparacion_ms": 7151.279935000048,
+      "compresion_ms": 957.2431950000464,
+      "bytes_codificados": 73497,
+      "sha256_codificada": "b7c1aa63f59a590c9876c97bd47b595d448857a089f74fb7404e55374f466eab"
+    },
+    "despues": {
+      "segundos": 3.2758771800001796,
+      "preparacion_ms": 3254.3481990001055,
+      "compresion_ms": 972.3471659999632,
+      "bytes_codificados": 73497,
+      "sha256_codificada": "b7c1aa63f59a590c9876c97bd47b595d448857a089f74fb7404e55374f466eab"
+    },
+    "mejora_porcentaje": 54.307626977571864
+  },
+  {
+    "archivo": "04_patron_geometrico.bmp",
+    "sha256_original": "b6db6f282474aeb2a4245ae7b76f4849cc3d5a5e4701452f5bbfa084a40ec3a9",
+    "alimentacion_antes": "throttled=0x0",
+    "antes": {
+      "segundos": 6.16599362199986,
+      "preparacion_ms": 6147.74463699996,
+      "compresion_ms": 853.2492609999736,
+      "bytes_codificados": 61944,
+      "sha256_codificada": "9dcba78217b55cca4d0bc2286fbc9dabea774155eab89cd420bafb194e094ef3"
+    },
+    "despues": {
+      "segundos": 3.792864647999977,
+      "preparacion_ms": 3773.429664999867,
+      "compresion_ms": 890.1282159999937,
+      "bytes_codificados": 61944,
+      "sha256_codificada": "9dcba78217b55cca4d0bc2286fbc9dabea774155eab89cd420bafb194e094ef3"
+    },
+    "mejora_porcentaje": 38.48737315479398
+  },
+  {
+    "archivo": "84e1ecff83f44904bbf2d00cf84af428_01_fotografia_retrato.bmp",
+    "sha256_original": "03fcdf4871f5375db91bb36ad8730eb8da2e5f77d65ede65d37805d43e1ee067",
+    "alimentacion_antes": "throttled=0x0",
+    "antes": {
+      "segundos": 6.664495033000094,
+      "preparacion_ms": 6646.747048999941,
+      "compresion_ms": 903.1331969999883,
+      "bytes_codificados": 67670,
+      "sha256_codificada": "3cd68c4ce2b5f4c085dd284a25039def508f5a456a042cafca8ecb9c0b40c146"
+    },
+    "despues": {
+      "segundos": 3.3669289500001014,
+      "preparacion_ms": 3346.856968999873,
+      "compresion_ms": 906.1981819997982,
+      "bytes_codificados": 67670,
+      "sha256_codificada": "3cd68c4ce2b5f4c085dd284a25039def508f5a456a042cafca8ecb9c0b40c146"
+    },
+    "mejora_porcentaje": 49.47960898270124
+  }
+]

@@ -3,6 +3,7 @@ import io
 import tempfile
 import time
 import unittest
+from unittest.mock import patch
 from pathlib import Path
 from PIL import Image
 from .codecs import encode, decode, huffman_encode, huffman_decode
@@ -17,6 +18,21 @@ class CodecTests(unittest.TestCase):
                 self.assertEqual(huffman_decode(huffman_encode(data)), data)
         with self.assertRaises(ValueError):
             huffman_decode(huffman_encode(b'hello')[:-1])
+
+    def test_huffman_long_codes_invalid_prefix_and_padding(self):
+        # Frecuencias muy desiguales producen códigos mayores de 8 bits.
+        counts = [1, 1]
+        for _ in range(17):
+            counts.append(counts[-1] + counts[-2])
+        original = b''.join(bytes([i]) * count for i, count in enumerate(counts))
+        self.assertEqual(huffman_decode(huffman_encode(original)), original)
+        from .codecs import HUFF
+        # Código válido de 255 bits: el formato también permite este extremo.
+        long_code = HUFF.pack(b'HUF2', 1, 1) + b'x\xff' + bytes(32) + bytes(32)
+        self.assertEqual(huffman_decode(long_code), b'x')
+        for payload in (b'\x80', b'\x01', b'\x00\x00', b''):
+            with self.subTest(payload=payload), self.assertRaises(ValueError):
+                huffman_decode(huffman_encode(b'x')[:-1] + payload)
 
     def test_actual_team_samples_lossless_byte_exact(self):
         samples = Path(__file__).parent / 'algoritmos/algoritmo_sin_perdidas'
@@ -132,7 +148,9 @@ class TransportTests(unittest.TestCase):
         for lost in (None, START, DATA, FIN):
             with self.subTest(lost=lost):
                 received = []
-                channel = TestChannel(Receiver(lambda data, *_: received.append(data)), lost)
+                progress = []
+                channel = TestChannel(Receiver(lambda data, *_: received.append(data),
+                                               lambda done, total: progress.append(done)), lost)
                 diagnostics = {}
                 result = send_file(channel, data, diagnostics=diagnostics)
                 self.assertEqual(received, [data])
@@ -142,6 +160,34 @@ class TransportTests(unittest.TestCase):
                 self.assertEqual(diagnostics['ack_hardware_ausentes'], 0)
                 self.assertEqual(diagnostics['intentos_sin_ack_aplicacion'], int(lost is not None))
                 self.assertEqual(diagnostics['tramas_aplicacion'], result['tramas_aplicacion'])
+                self.assertEqual(progress[-1], len(data))
+                self.assertEqual(progress, sorted(progress))
+                self.assertLessEqual(max(progress), len(data))
+
+    def test_transfer_over_60_seconds_has_no_implicit_deadline(self):
+        class Clock:
+            def __init__(self): self.now = 100.0
+            def monotonic(self): return self.now
+
+        class SlowChannel(TestChannel):
+            def send(self, frame):
+                clock.now += 0.75  # Tiempo virtual; el test no duerme.
+                return super().send(frame)
+
+        original = bytes(range(256)) * 10
+        for limit in (None, 5):
+            clock = Clock()
+            received = []
+            channel = SlowChannel(Receiver(lambda data, *_: received.append(data)))
+            with patch('transmision.archivos.time.monotonic', clock.monotonic):
+                if limit is None:
+                    self.assertTrue(send_file(channel, original)['confirmado_por_rx'])
+                    self.assertGreater(clock.now - 100, 60)
+                    self.assertEqual(received, [original])
+                else:
+                    with self.assertRaisesRegex(TimeoutError, 'plazo total'):
+                        send_file(channel, original, deadline=clock.now + limit)
+                    self.assertEqual(received, [])
 
     def test_crc_failure_never_reports_success_or_publishes(self):
         received = []

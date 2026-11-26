@@ -63,7 +63,7 @@ class Receiver:
             elif self.current and (size, crc) != (self.current['size'], self.current['crc']):
                 status = 1
             elif not self.current:
-                self.current = dict(id=session, size=size, crc=crc, parts={}, seen=now, started=now)
+                self.current = dict(id=session, size=size, crc=crc, parts={}, received=0, seen=now, started=now)
         elif not self.current or self.current['id'] != session:
             status = 1
         elif kind == DATA:
@@ -75,8 +75,10 @@ class Receiver:
                 if index in current['parts'] and current['parts'][index] != chunk:
                     status = 1
                 else:
+                    if index not in current['parts']:
+                        current['received'] += len(chunk)
                     current['parts'][index] = chunk
-                    self.progress(sum(map(len, current['parts'].values())), current['size'])
+                    self.progress(current['received'], current['size'])
         elif kind == FIN:
             current = self.current
             count = math.ceil(current['size'] / CHUNK)
@@ -101,7 +103,8 @@ class Receiver:
 def send_file(endpoint, data, progress=lambda *_: None, deadline=None, retries=4, diagnostics=None):
     if not 1 <= len(data) <= MAX_WIRE:
         raise ValueError('Flujo codificado fuera del límite de transporte')
-    deadline = deadline or time.monotonic() + 60
+    # Sin plazo global por defecto: una transferencia que avanza puede superar
+    # 60 s. Las confirmaciones por fragmento conservan sus esperas y reintentos.
     session = secrets.randbits(32)
     frames = repeats = 0
     stats = diagnostics if diagnostics is not None else {}
@@ -118,7 +121,7 @@ def send_file(endpoint, data, progress=lambda *_: None, deadline=None, retries=4
         nonlocal frames, repeats
         stats.update(fase={START: 'START', DATA: 'DATA', FIN: 'FIN'}[kind], indice=index)
         for attempt in range(retries + 1):
-            if time.monotonic() >= deadline:
+            if deadline is not None and time.monotonic() >= deadline:
                 raise TimeoutError('Se agotó el plazo total de transmisión')
             frames += 1
             repeats += int(attempt > 0)
@@ -127,7 +130,9 @@ def send_file(endpoint, data, progress=lambda *_: None, deadline=None, retries=4
             acknowledged = endpoint.send(packet(kind, session, index, body))
             stats['escritura_radio_ms'] += (time.monotonic() - sent) * 1000
             stats['ack_hardware_recibidos' if acknowledged else 'ack_hardware_ausentes'] += 1
-            end = min(deadline, time.monotonic() + (3 if kind == FIN else 0.4))
+            end = time.monotonic() + (3 if kind == FIN else 0.4)
+            if deadline is not None:
+                end = min(deadline, end)
             waiting = time.monotonic()
             try:
                 while time.monotonic() < end:

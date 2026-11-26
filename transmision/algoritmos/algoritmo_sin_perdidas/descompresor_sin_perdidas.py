@@ -72,31 +72,58 @@ def build_tree(coding):
 
 
 def decompress_payload(payload, tree, expected_length=FILE_LENGTH):
-    # bytearray permite agregar los píxeles recuperados uno por uno.
+    if expected_length < 1:
+        raise ValueError('La longitud esperada debe ser positiva')
+    # Los códigos cortos se resuelven con una consulta por símbolo, evitando
+    # divisiones, búsquedas y comprobaciones de tipo por cada bit en ARMv6.
+    # Los códigos mayores de 8 bits conservan el recorrido del árbol original.
+    lookup = [None] * 256
+    for prefix in range(256):
+        node = tree
+        for length in range(1, 9):
+            branch = node.get((prefix >> (8 - length)) & 1)
+            if branch is None:
+                break
+            if isinstance(branch, int):
+                lookup[prefix] = (branch, length)
+                break
+            node = branch
+
     recovered = bytearray()
-    node = tree
+    append = recovered.append
+    position = accumulator = bits = 0
+    for _ in range(expected_length):
+        while bits < 8 and position < len(payload):
+            accumulator = (accumulator << 8) | payload[position]
+            position += 1
+            bits += 8
+        entry = lookup[(accumulator >> (bits - 8)) & 255] if bits >= 8 else None
+        if entry is not None:
+            symbol, length = entry
+            bits -= length
+            accumulator &= (1 << bits) - 1
+        else:
+            node = tree
+            while not isinstance(node, int):
+                if bits == 0:
+                    if position == len(payload):
+                        raise ValueError('No se recuperaron todos los píxeles de la imagen')
+                    accumulator = payload[position]
+                    position += 1
+                    bits = 8
+                bits -= 1
+                bit = (accumulator >> bits) & 1
+                accumulator &= (1 << bits) - 1
+                if bit not in node:
+                    raise ValueError('El payload contiene un código inválido')
+                node = node[bit]
+            symbol = node
+        append(symbol)
 
-    # Recorremos los bytes bit por bit, comenzando por el más significativo.
-    for index in range(len(payload) * 8):
-        bit = (payload[index // 8] >> (7 - index % 8)) & 1
-        if bit not in node:
-            raise ValueError('El payload contiene un código inválido')
-        node = node[bit]
-
-        # Si llegamos a una hoja, encontramos el valor de un píxel.
-        if isinstance(node, int):
-            recovered.append(node)
-            node = tree  # Volvemos a la raíz para buscar el siguiente píxel.
-
-            # El compresor agrega ceros al final para completar el último byte.
-            # Nos detenemos al recuperar los 76800 píxeles de la imagen.
-            if len(recovered) == expected_length:
-                remaining = len(payload) * 8 - index - 1
-                if remaining > 7 or (remaining and payload[-1] & ((1 << remaining) - 1)):
-                    raise ValueError('El relleno del payload es inválido')
-                return bytes(recovered)
-
-    raise ValueError('No se recuperaron todos los píxeles de la imagen')
+    remaining = bits + (len(payload) - position) * 8
+    if remaining > 7 or accumulator:
+        raise ValueError('El relleno del payload es inválido')
+    return bytes(recovered)
 
 
 def rebuild_palette():
