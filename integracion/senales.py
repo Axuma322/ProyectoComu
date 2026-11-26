@@ -36,6 +36,8 @@ def patron(estado, modo, dip, t, dt, aviso_dt=None):
 
     if estado == 'error':
         rojo = (dt % 0.25) < 0.125 if dt < ERROR_RAPIDO else True
+    elif estado == 'pausado':
+        rojo = latido  # RX encendido pero sin permiso para recibir
     elif estado in ('error_radio', 'detenido'):
         rojo = True
     else:

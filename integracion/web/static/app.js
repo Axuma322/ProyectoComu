@@ -16,7 +16,7 @@ let selectedReceived = null;
 let followLatest = true;
 const deletingReceived = new Set();
 const modeLabel = mode => ({sin_perdidas: 'Huffman sin pérdidas', con_perdidas: 'cuantización con pérdidas', automatico: 'automático'})[mode] || mode;
-const phaseLabel = phase => ({esperando: 'Listo para transmitir', escuchando: 'Esperando una imagen', codificando: 'Codificando imagen', enviando: 'Transmitiendo imagen', recibiendo: 'Recibiendo imagen', completado: 'Transferencia completada', error: 'La transferencia falló', proceso_radio_detenido: 'El proceso de radio está detenido', iniciando_radio: 'Iniciando radio'})[phase] || phase;
+const phaseLabel = phase => ({esperando: 'Listo para transmitir', escuchando: 'Esperando una imagen', pausado: 'En pausa: presione el botón del receptor para recibir', codificando: 'Codificando imagen', enviando: 'Transmitiendo imagen', recibiendo: 'Recibiendo imagen', completado: 'Transferencia completada', error: 'La transferencia falló', proceso_radio_detenido: 'El proceso de radio está detenido', iniciando_radio: 'Iniciando radio'})[phase] || phase;
 const number = (value, digits = 2) => Number(value).toLocaleString('es', {maximumFractionDigits: digits});
 
 function message(text, error = false) {

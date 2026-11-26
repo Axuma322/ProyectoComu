@@ -11,7 +11,9 @@ Encender ambas, conectar cada teléfono a la red correspondiente y permanecer
 conectado si avisa que no hay Internet. En TX el teléfono carga o elige el
 BMP/PGM gris de hasta 320 × 240; el modo se pone con el DIP y se transmite con
 el botón físico (la página muestra lo que marcan los switches). Probar
-compresión es opcional. RX guarda las recepciones en su galería. Borrar en una Raspberry
+compresión es opcional. Con `--gpio`, RX arranca en pausa: presionar su botón
+una vez para habilitar la recepción (el verde empieza a latir). RX guarda las
+recepciones en su galería. Borrar en una Raspberry
 no borra la copia de la otra. No cerrar la alimentación durante guardados;
 al terminar se puede apagar desde SSH con `sudo systemctl poweroff`.
 

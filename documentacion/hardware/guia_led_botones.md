@@ -14,7 +14,7 @@ Usamos **numeración BCM** en Python; «pin físico» es la posición del conect
 | LED verde: actividad | 23 | 16 | TX y RX |
 | LED azul: modo | 24 | 18 | TX y RX; ver limitación RX abajo |
 | LED rojo: fin/error | 25 | 22 | TX y RX |
-| Botón de inicio | 17 | 11 | TX |
+| Botón: enviar (TX) / habilitar recepción (RX) | 17 | 11 | TX y RX |
 | DIP 1: modo | 27 | 13 | TX |
 | DIP 2: calidad, bit alto | 5 | 29 | TX |
 | DIP 3: calidad, bit bajo | 6 | 31 | TX |
@@ -42,7 +42,13 @@ la transmisión se inicia únicamente con el botón físico; la web ya no tiene
 botón de envío y `/api/transmitir` responde 403. La página muestra en vivo lo
 que marcan los switches. Si se pulsa sin imagen elegida, o con un envío en
 curso, no se encola nada y el LED rojo da unos destellos. Antirrebote: 0,1 s.
-RX escucha automáticamente; su worker no crea botón ni entradas DIP.
+En RX el botón habilita la recepción. Con `--gpio`, RX arranca **en pausa**
+(radio sin escuchar, rojo con un destello cada 2 s). Una pulsación lo pone a
+escuchar y queda así indefinidamente, sin saber cuándo empezará TX; otra
+pulsación vuelve a la pausa. Si llega a pulsarse mientras recibe una imagen,
+se ignora y el rojo destella. Sin `--gpio`, RX escucha siempre, como antes.
+RX no tiene DIP. En RX el botón puede ir a cualquier GND libre (por ejemplo,
+el pin 9).
 
 Por esto **TX necesita `--gpio` siempre activo**; sin él no hay forma de
 transmitir. Ver [GPIO persistentes](../operacion.md#gpio-persistentes).
@@ -75,6 +81,7 @@ Los patrones están en `integracion/senales.py` (función `patron`, probada en
 | Completado y confirmado | 3 destellos, luego vuelve al latido | | Apagado |
 | Error de la transferencia | Apagado | | Parpadeo rápido 5 s, luego fijo |
 | Error del radio o detenido | Apagado | | Fijo |
+| RX en pausa (no recibe) | Apagado | | Destello corto cada 2 s |
 | Botón sin imagen o ya ocupado | | | Destellos durante 1 s |
 
 Azul en TX: mientras espera (o después de un envío) sigue al DIP en tiempo real.

@@ -85,14 +85,15 @@ def reconstruct(wire, root, session, elapsed):
 class Controls:
     """GPIO opcionales, todos en BCM; pinout en la guía de LED, botón y DIP.
 
-    RX solo crea LED. Los patrones de parpadeo están en integracion/senales.py.
+    TX: botón de envío y DIP. RX: botón que habilita o pausa la recepción.
+    Los patrones de los LED están en integracion/senales.py.
     Habilitar --gpio exige comprobar el montaje.
     """
     def __init__(self, role):
         from gpiozero import LED, Button
         from integracion.senales import Senales
         self.activity, self.mode, self.finished = LED(23), LED(24), LED(25)
-        self.button = Button(17, pull_up=True, bounce_time=0.1) if role == 'tx' else None
+        self.button = Button(17, pull_up=True, bounce_time=0.1)
         self.dips = [Button(p, pull_up=True) for p in (27, 5, 6, 13)] if role == 'tx' else []
         self.senales = Senales(self.activity, self.mode, self.finished)
 
@@ -224,12 +225,42 @@ def main():
                     except RuntimeError:
                         controls.senales.aviso()  # ya hay un envío en curso
                 controls.button.when_pressed = press
+        # RX con botón arranca en pausa: no recibe hasta que se presione.
+        # El bucle principal es el único que toca el radio; el botón solo cambia el evento.
+        habilitado = threading.Event()
+        radio_escuchando = True  # RadioEndpoint ya deja el radio escuchando
+        if args.role == 'rx' and controls:
+            def press_rx():
+                with state_lock:
+                    ocupado = state.get('estado') == 'recibiendo'
+                if ocupado:
+                    controls.senales.aviso()  # no cortar una imagen a medias
+                elif habilitado.is_set():
+                    habilitado.clear()
+                else:
+                    habilitado.set()
+            controls.button.when_pressed = press_rx
+        else:
+            habilitado.set()
         receiver = Receiver(completed, progress)
-        publish('esperando' if args.role == 'tx' else 'escuchando', gpio=args.gpio)
+        inicial = 'esperando' if args.role == 'tx' else ('escuchando' if habilitado.is_set() else 'pausado')
+        publish(inicial, gpio=args.gpio)
         heartbeat_thread = threading.Thread(target=heartbeat, name='comu-heartbeat', daemon=True)
         heartbeat_thread.start()
         while True:
-            if args.role == 'rx':
+            if args.role == 'rx' and not habilitado.is_set():
+                if radio_escuchando:
+                    endpoint.radio.stop_listening(endpoint.address)
+                    radio_escuchando = False
+                    receiver.current = None
+                    publish('pausado', progreso=0)
+                time.sleep(0.05)
+            elif args.role == 'rx':
+                if not radio_escuchando:
+                    endpoint.radio.flush_rx()  # nada viejo de antes de la pausa
+                    endpoint.radio.start_listening()
+                    radio_escuchando = True
+                    publish('escuchando', progreso=0, error=None)
                 raw = endpoint.receive(0.1)
                 receiver.expire()
                 if raw is not None:

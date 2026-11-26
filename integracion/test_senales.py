@@ -49,6 +49,12 @@ class Patrones(unittest.TestCase):
         self.assertTrue(patron('completado', 'con_perdidas', None, 0, 5)[1])
         self.assertFalse(patron('completado', 'sin_perdidas', None, 0, 5)[1])
 
+    def test_rx_en_pausa_late_en_rojo(self):
+        valores = muestras('pausado')
+        rojos = [r for _, _, r in valores]
+        self.assertTrue(any(rojos) and sum(rojos) < len(rojos) / 5)
+        self.assertFalse(any(v for v, _, _ in valores))
+
     def test_aviso_sin_imagen_usa_el_rojo(self):
         rojos = [patron('esperando', None, None, 0, 0, i * 0.05)[2] for i in range(20)]
         self.assertTrue(any(rojos) and not all(rojos))
